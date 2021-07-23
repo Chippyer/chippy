@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>user</artifactId>
+    <artifactId>user-01</artifactId>
 
     <dependencies>
         <dependency>
@@ -34,6 +34,5 @@
             <version>${project.version}</version>
         </dependency>
     </dependencies>
-
 
 </project>

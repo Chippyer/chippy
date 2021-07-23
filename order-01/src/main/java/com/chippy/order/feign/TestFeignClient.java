@@ -1,9 +1,10 @@
 package com.chippy.order.feign;
 
+import com.chippy.order.response.ResponseResult;
 import com.chippy.user.annotation.EnhanceRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
-import com.chippy.order.response.ResponseResult;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @title: 测试FeignClient
@@ -15,6 +16,6 @@ public interface TestFeignClient {
 
     @EnhanceRequest
     @GetMapping("/test/feign/helloworld")
-    ResponseResult<String> helloworld();
+    ResponseResult<String> helloworld(@RequestParam("hello") String hello);
 
 }

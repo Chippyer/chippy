@@ -1,12 +1,9 @@
-package com.chippy.order.controller;
+package com.chippy.user.controller;
 
-import com.chippy.order.feign.TestFeignClient;
+import com.chippy.user.response.ResponseResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.chippy.order.response.ResponseResult;
-
-import javax.annotation.Resource;
 
 /**
  * @title: 测试控制器
@@ -17,12 +14,9 @@ import javax.annotation.Resource;
 @RequestMapping("/test/feign")
 public class TestController {
 
-    @Resource
-    private TestFeignClient testFeignClient;
-
     @GetMapping("/helloworld")
-    public ResponseResult<String> helloworld() {
-        return ResponseResult.success(testFeignClient.helloworld().getData());
+    public ResponseResult<String> helloworld(String hello) {
+        return ResponseResult.success("hello world " + hello);
     }
 
 }

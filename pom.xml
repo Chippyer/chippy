@@ -7,8 +7,8 @@
     <modules>
         <module>chippy-feign</module>
         <module>chippy-common</module>
-        <module>chippy-feign-test</module>
-        <module>chippy-feign-test-02</module>
+        <module>order-01</module>
+        <module>user-01</module>
     </modules>
 
     <properties>
