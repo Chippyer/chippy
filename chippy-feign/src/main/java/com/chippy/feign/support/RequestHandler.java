@@ -1,12 +1,13 @@
 package com.chippy.feign.support;
 
-import com.chippy.feign.support.registry.RequestElement;
 import com.chippy.feign.support.processor.FeignClientProcessor;
+import com.chippy.feign.support.registry.RequestElement;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ import java.util.List;
  * @author: chippy
  * @date: 2021-07-23 16:07
  **/
+@Service
 @Aspect
 @Slf4j
 public class RequestHandler {
@@ -25,8 +27,9 @@ public class RequestHandler {
 
     @AfterReturning(value = "enhancePointCut()", returning = "result")
     public void afterReturning(JoinPoint point, Object result) {
+        log.debug("------------------");
         /*
-            todo
+            todol
             1. 获取全路径信息 classPath + methodName
             2. 获取方法参数
             3. 获取对应元素信息

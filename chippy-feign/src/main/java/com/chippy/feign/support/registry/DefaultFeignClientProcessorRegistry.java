@@ -3,10 +3,10 @@ package com.chippy.feign.support.registry;
 import cn.hutool.core.lang.ClassScanner;
 import com.chippy.common.utils.ObjectsUtil;
 import com.chippy.feign.support.processor.FeignClientProcessor;
-import com.chippy.feign.utils.ApplicationContextUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.CollectionUtils;
@@ -17,6 +17,7 @@ import javax.annotation.Resource;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 默认Feign请求处理器实现
@@ -33,10 +34,10 @@ public class DefaultFeignClientProcessorRegistry implements ProcessorRegistry, I
     private PathMatcher pathMatcher;
 
     @Resource
-    private List<FeignClientProcessor> feignClientProcessorList;
+    private ApplicationContext applicationContext;
 
     public DefaultFeignClientProcessorRegistry() {
-        this(ApplicationContextUtil.getDefaultScannerPackage(), new AntPathMatcher());
+        this("com.chippy.feign", new AntPathMatcher());
     }
 
     public DefaultFeignClientProcessorRegistry(String scannerPackages, PathMatcher pathMatcher) {
@@ -128,7 +129,9 @@ public class DefaultFeignClientProcessorRegistry implements ProcessorRegistry, I
     }
 
     private void registerFeignClientProcessor(String fullPath, String[] requestPaths) {
-        for (FeignClientProcessor feignClientProcessor : feignClientProcessorList) {
+        final Map<String, FeignClientProcessor> feignClientProcessors =
+            applicationContext.getBeansOfType(FeignClientProcessor.class);
+        feignClientProcessors.forEach((k, feignClientProcessor) -> {
             final List<String> includePathPatterns = feignClientProcessor.getIncludePathPattern();
             final List<String> excludePathPatterns = feignClientProcessor.getExcludePathPattern();
             if (CollectionUtils.isEmpty(includePathPatterns)) {
@@ -158,7 +161,7 @@ public class DefaultFeignClientProcessorRegistry implements ProcessorRegistry, I
             if (isMatch) {
                 this.register(fullPath, feignClientProcessor);
             }
-        }
+        });
     }
 
     private boolean isRequestAnnotation(PostMapping postMapping, GetMapping getMapping, RequestMapping requestMapping,
