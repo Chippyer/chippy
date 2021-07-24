@@ -9,6 +9,7 @@
         <module>chippy-common</module>
         <module>order-01</module>
         <module>user-01</module>
+        <module>register-01</module>
     </modules>
 
     <properties>
