@@ -21,7 +21,7 @@ public class FeignClientProcessorScheduler {
         this.requestHandler = requestHandler;
     }
 
-    @Pointcut("@annotation(com.chippy.feign.annotation.EnhanceRequest)")
+    @Pointcut("@within(com.chippy.feign.annotation.EnhanceRequest) || @annotation(com.chippy.feign.annotation.EnhanceRequest)")
     private void enhancePointCut() {
     }
 
