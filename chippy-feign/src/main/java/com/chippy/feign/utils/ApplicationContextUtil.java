@@ -1,4 +1,4 @@
-package com.chippy.user.utils;
+package com.chippy.feign.utils;
 
 import cn.hutool.core.bean.BeanException;
 

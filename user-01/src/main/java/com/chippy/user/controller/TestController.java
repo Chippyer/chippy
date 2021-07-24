@@ -16,6 +16,7 @@ public class TestController {
 
     @GetMapping("/helloworld")
     public ResponseResult<String> helloworld(String hello) {
+        //        return ResponseResult.fail(-1, "测试异常");
         return ResponseResult.success("hello world " + hello);
     }
 

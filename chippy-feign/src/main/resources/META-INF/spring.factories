@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.chippy.user.configuration.FeignClientProcessorAutoConfiguration
+com.chippy.feign.configuration.FeignClientProcessorAutoConfiguration

@@ -1,9 +1,9 @@
 package com.chippy.order.feign;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.chippy.user.support.processor.AbstractMonitorFeignClientProcessor;
-import com.chippy.user.support.registry.RequestElement;
-import lombok.SneakyThrows;
+import com.chippy.feign.exception.FeignClientRequestException;
+import com.chippy.feign.support.processor.AbstractMonitorFeignClientProcessor;
+import com.chippy.feign.support.registry.RequestElement;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
@@ -26,12 +26,12 @@ public class MonitorFeignClientProcessor extends AbstractMonitorFeignClientProce
         return CollectionUtil.toList("/**");
     }
 
-    @SneakyThrows
     @Override
     public void processException(RequestElement element, Throwable e) {
         if (log.isErrorEnabled()) {
             log.error("监控性能指标扩展处理器异常-[{}]", e.getMessage(), e);
         }
+        throw new FeignClientRequestException(e.getMessage(), e);
     }
 
 }

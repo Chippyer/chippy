@@ -1,7 +1,7 @@
-package com.chippy.user.support.processor;
+package com.chippy.feign.support.processor;
 
 import cn.hutool.json.JSONUtil;
-import com.chippy.user.support.registry.RequestElement;
+import com.chippy.feign.support.registry.RequestElement;
 import lombok.extern.slf4j.Slf4j;
 
 /**

@@ -1,6 +1,6 @@
-package com.chippy.user.support.processor;
+package com.chippy.feign.support.processor;
 
-import com.chippy.user.support.registry.RequestElement;
+import com.chippy.feign.support.registry.RequestElement;
 
 import java.util.List;
 

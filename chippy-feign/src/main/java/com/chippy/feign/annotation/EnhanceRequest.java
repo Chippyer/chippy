@@ -1,4 +1,4 @@
-package com.chippy.user.annotation;
+package com.chippy.feign.annotation;
 
 import java.lang.annotation.*;
 
@@ -14,4 +14,14 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 public @interface EnhanceRequest {
+
+    /**
+     * 遇到异常结果或异常信息是否抛出异常，默认抛出
+     *
+     * @return boolean
+     * @author chippy
+     * @date 2021-07-24 11:26
+     */
+    boolean isThrowEx() default true;
+
 }

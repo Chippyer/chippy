@@ -1,6 +1,6 @@
-package com.chippy.user.support.registry;
+package com.chippy.feign.support.registry;
 
-import com.chippy.user.support.processor.FeignClientProcessor;
+import com.chippy.feign.support.processor.FeignClientProcessor;
 
 /**
  * @title: FeignProcessor处理器注册接口规范定义

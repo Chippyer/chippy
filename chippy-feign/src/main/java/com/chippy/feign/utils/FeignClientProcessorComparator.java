@@ -1,6 +1,6 @@
-package com.chippy.user.utils;
+package com.chippy.feign.utils;
 
-import com.chippy.user.support.processor.FeignClientProcessor;
+import com.chippy.feign.support.processor.FeignClientProcessor;
 import org.springframework.core.annotation.Order;
 
 import java.util.Comparator;

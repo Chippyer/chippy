@@ -1,7 +1,7 @@
 package com.chippy.order.feign;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.chippy.user.support.processor.AbstractLogFeignClientProcessor;
+import com.chippy.feign.support.processor.AbstractLogFeignClientProcessor;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 

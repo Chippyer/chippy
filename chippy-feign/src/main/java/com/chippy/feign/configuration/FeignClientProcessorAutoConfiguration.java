@@ -1,8 +1,10 @@
-package com.chippy.user.configuration;
+package com.chippy.feign.configuration;
 
-import com.chippy.user.support.processor.FeignClientProcessorHandler;
-import com.chippy.user.support.registry.DefaultFeignClientProcessorRegistry;
-import com.chippy.user.support.registry.ProcessorRegistry;
+import com.chippy.feign.support.processor.DefaultRequestHandler;
+import com.chippy.feign.support.processor.FeignClientProcessorScheduler;
+import com.chippy.feign.support.processor.RequestHandler;
+import com.chippy.feign.support.registry.DefaultFeignClientProcessorRegistry;
+import com.chippy.feign.support.registry.ProcessorRegistry;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -29,8 +31,14 @@ public class FeignClientProcessorAutoConfiguration {
     }
 
     @Bean
-    public FeignClientProcessorHandler requestHandler() {
-        return new FeignClientProcessorHandler();
+    @ConditionalOnMissingBean
+    public RequestHandler requestHandler() {
+        return new DefaultRequestHandler();
+    }
+
+    @Bean
+    public FeignClientProcessorScheduler feignClientProcessorScheduler(RequestHandler requestHandler) {
+        return new FeignClientProcessorScheduler(requestHandler);
     }
 
 }

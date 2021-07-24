@@ -1,9 +1,9 @@
-package com.chippy.user.support.registry;
+package com.chippy.feign.support.registry;
 
 import cn.hutool.core.lang.ClassScanner;
 import com.chippy.common.utils.ObjectsUtil;
-import com.chippy.user.support.processor.FeignClientProcessor;
-import com.chippy.user.utils.ApplicationContextUtil;
+import com.chippy.feign.support.processor.FeignClientProcessor;
+import com.chippy.feign.utils.ApplicationContextUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.InitializingBean;

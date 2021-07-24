@@ -1,4 +1,4 @@
-package com.chippy.user.support.registry;
+package com.chippy.feign.support.registry;
 
 import lombok.Data;
 

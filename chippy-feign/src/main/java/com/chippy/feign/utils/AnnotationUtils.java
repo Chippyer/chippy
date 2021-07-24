@@ -1,4 +1,4 @@
-package com.chippy.user.utils;
+package com.chippy.feign.utils;
 
 import com.chippy.common.utils.ObjectsUtil;
 import org.springframework.context.ApplicationContext;

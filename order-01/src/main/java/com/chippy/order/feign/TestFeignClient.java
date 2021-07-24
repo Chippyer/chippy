@@ -1,7 +1,7 @@
 package com.chippy.order.feign;
 
 import com.chippy.order.response.ResponseResult;
-import com.chippy.user.annotation.EnhanceRequest;
+import com.chippy.feign.annotation.EnhanceRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
