@@ -19,8 +19,8 @@ import java.util.stream.Collectors;
  * @author: chippy
  * @date: 2021-05-26 16:05
  **/
-public abstract class GenericCompareProcessor<M extends CompareData, R>
-    implements CompareProcessor<M, R>, InitializingBean {
+public abstract class GenericCompareProcessor<M, C extends CompareData, R>
+    implements CompareProcessor<M, C, R>, InitializingBean {
 
     private List<ExpandField> monitorExpandFieldList = new LinkedList<>();
 
@@ -55,15 +55,6 @@ public abstract class GenericCompareProcessor<M extends CompareData, R>
     }
 
     /**
-     * 获取监控对象{@link Class}实例
-     *
-     * @return java.lang.Class<? extends com.gd.gcmp.pigeon.platform.service.operate.CompareOperate>
-     * @author chippy
-     * @date 2021-05-26 21:46
-     */
-    protected abstract Class<M> getClassInstance();
-
-    /**
      * 传监控对象实例进行比较监控字段
      * 发生变化的监控字段赋值生成{@link R}实例返回
      * <p>
@@ -80,19 +71,15 @@ public abstract class GenericCompareProcessor<M extends CompareData, R>
         if (Objects.isNull(newCompareOperate)) {
             throw new CompareException("对比新对象数据不能为空！");
         }
-        final Class classType = this.getClassInstance();
         final List<ExpandField> monitorFieldList = this.getMonitorFieldList();
-        // 特殊处理
+        // old object is empty
         if (Objects.isNull(oldCompareOperate)) {
-            if (!classType.equals(newCompareOperate.getClass())) {
-                throw new CompareException("新对象对比监控对象不是同类型！");
-            }
             return monitorFieldList.stream()
                 .map(expandField -> this.buildOperateBo(newCompareOperate, null, expandField)).filter(Objects::nonNull)
                 .collect(Collectors.toList());
         }
-        // 通常处理
-        if (!classType.equals(newCompareOperate.getClass()) || !classType.equals(oldCompareOperate.getClass())) {
+
+        if (!newCompareOperate.getClass().equals(oldCompareOperate.getClass())) {
             throw new CompareException("新对象对比老对象不是同类型！");
         }
         return monitorFieldList.stream().map(expandField -> {
@@ -110,7 +97,7 @@ public abstract class GenericCompareProcessor<M extends CompareData, R>
     }
 
     private void initProperties() {
-        final Field[] fields = ReflectUtil.getFields(this.getClassInstance());
+        final Field[] fields = ReflectUtil.getFields(this.getMonitorClass());
         for (Field field : fields) {
             this.doInitMonitorExpendFieldList(field);
         }

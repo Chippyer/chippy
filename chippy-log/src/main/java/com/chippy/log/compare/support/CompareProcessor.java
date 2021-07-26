@@ -5,11 +5,12 @@ import java.util.List;
 /**
  * @title: 对象对比处理器
  * Type M: 监控对象类型
+ * Type C: 比较对象类型
  * Type R: 比较返回结果类型
  * @author: chippy
  * @date: 2021-07-24 17:07
  **/
-public interface CompareProcessor<M extends CompareData, R> {
+public interface CompareProcessor<M, C extends CompareData, R> {
 
     /**
      * 对比新老对象，并返回监控字段中被修改的值组成比较结果集合
@@ -20,6 +21,15 @@ public interface CompareProcessor<M extends CompareData, R> {
      * @author chippy
      * @date 2021-07-24 17:43
      */
-    List<R> compareAndGet(M newCompareData, M oldCompareData);
+    List<R> compareAndGet(C newCompareData, C oldCompareData);
+
+    /**
+     * 获取监控对象类型
+     *
+     * @return java.lang.Class<M>
+     * @author chippy
+     * @date 2021-07-26 19:49
+     */
+    Class<M> getMonitorClass();
 
 }

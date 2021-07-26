@@ -13,5 +13,6 @@ import lombok.EqualsAndHashCode;
 @Data
 public class OriginalBeanOperateLog extends GenericCompareData {
 
+    private String extra;
 
 }
