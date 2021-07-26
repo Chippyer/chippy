@@ -12,15 +12,18 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-        final TestBean newTestBean1 = new TestBean();
+        final OriginalBeanCompareData newTestBean1 = new OriginalBeanCompareData();
         newTestBean1.setName("zhangsan");
         newTestBean1.setOperationId("1");
         newTestBean1.setOperationName("chippy");
-        final TestBean newTestBean2 = new TestBean();
+        newTestBean1.setOperationType("UPDATE");
+        final OriginalBeanCompareData newTestBean2 = new OriginalBeanCompareData();
         newTestBean2.setName("zhangsans");
         final TestBeanCompareProcessor testBeanCompareProcessor = new TestBeanCompareProcessor();
-        final List<TestBean> testBeans = testBeanCompareProcessor.compareAndGet(newTestBean1, newTestBean2);
-        System.out.println(JSONUtil.toJsonStr(testBeans));
+        testBeanCompareProcessor.afterPropertiesSet();
+        final List<OriginalBeanOperateLog> originalBeanOperateLogs =
+            testBeanCompareProcessor.compareAndGet(newTestBean1, newTestBean2);
+        System.out.println(JSONUtil.toJsonStr(originalBeanOperateLogs));
     }
 
 }

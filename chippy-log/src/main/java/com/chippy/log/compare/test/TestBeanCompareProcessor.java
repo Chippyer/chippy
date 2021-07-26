@@ -7,11 +7,11 @@ import com.chippy.log.compare.support.GenericCompareProcessor;
  * @author: chippy
  * @date: 2021-07-24 17:07
  **/
-public class TestBeanCompareProcessor extends GenericCompareProcessor<TestBean> {
+public class TestBeanCompareProcessor extends GenericCompareProcessor<OriginalBeanCompareData, OriginalBeanOperateLog> {
 
     @Override
-    protected Class<TestBean> getClassInstance() {
-        return TestBean.class;
+    protected Class<OriginalBeanCompareData> getClassInstance() {
+        return OriginalBeanCompareData.class;
     }
 
 }

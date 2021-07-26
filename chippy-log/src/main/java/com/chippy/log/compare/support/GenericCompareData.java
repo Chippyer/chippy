@@ -2,15 +2,13 @@ package com.chippy.log.compare.support;
 
 import lombok.Data;
 
-import java.sql.Timestamp;
-
 /**
  * @title: 规定操作日志比较时的基础属性
  * @author: chippy
  * @date: 2021-05-26 11:05
  **/
 @Data
-public class GenericCompareData {
+public class GenericCompareData implements CompareData {
 
     /**
      * 修改字段名称
@@ -41,10 +39,5 @@ public class GenericCompareData {
      * 操作人名称
      */
     private String operationName;
-
-    /**
-     * 创建时间
-     */
-    private Timestamp ctime;
 
 }
