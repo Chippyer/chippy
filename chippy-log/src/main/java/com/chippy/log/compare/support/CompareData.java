@@ -25,13 +25,4 @@ public interface CompareData {
      */
     String getOperationName();
 
-    /**
-     * 操作类型
-     *
-     * @return java.lang.String
-     * @author chippy
-     * @date 2021-07-26 18:26
-     */
-    String getOperationType();
-
 }

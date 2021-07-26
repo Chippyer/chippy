@@ -2,6 +2,7 @@ package com.chippy.log.compare.test;
 
 import cn.hutool.json.JSONUtil;
 import com.chippy.log.compare.support.GenericCompareData;
+import com.chippy.log.compare.support.GenericCompareProcessor;
 
 import java.util.List;
 
@@ -13,15 +14,14 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-        final OriginalBeanCompareData newTestBean1 = new OriginalBeanCompareData();
+        final OriginalBean newTestBean1 = new OriginalBean();
         newTestBean1.setName("zhangsan");
         newTestBean1.setOperationId("1");
         newTestBean1.setOperationName("chippy");
         newTestBean1.setOperationType("UPDATE");
-        final OriginalBeanCompareData newTestBean2 = new OriginalBeanCompareData();
+        final OriginalBean newTestBean2 = new OriginalBean();
         newTestBean2.setName("zhangsans");
-        final TestBeanCompareProcessor testBeanCompareProcessor = new TestBeanCompareProcessor();
-        testBeanCompareProcessor.afterPropertiesSet();
+        final GenericCompareProcessor<OriginalBean> testBeanCompareProcessor = new GenericCompareProcessor<>();
         final List<GenericCompareData> genericCompareData =
             testBeanCompareProcessor.compareAndGet(newTestBean1, newTestBean2);
         System.out.println(JSONUtil.toJsonStr(genericCompareData));

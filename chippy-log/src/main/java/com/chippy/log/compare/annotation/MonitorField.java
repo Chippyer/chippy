@@ -19,7 +19,7 @@ import java.lang.annotation.Target;
  * @author: chippy
  * @date: 2021-05-25 21:05
  **/
-@Target({ElementType.FIELD, ElementType.METHOD, ElementType.TYPE})
+@Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MonitorField {
 

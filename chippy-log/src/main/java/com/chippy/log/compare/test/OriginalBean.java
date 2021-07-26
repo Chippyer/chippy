@@ -1,6 +1,8 @@
 package com.chippy.log.compare.test;
 
 import com.chippy.log.compare.annotation.MonitorField;
+import com.chippy.log.compare.support.CompareData;
+import com.chippy.log.compare.support.OperationRelationCompareData;
 import lombok.Data;
 
 /**
@@ -9,7 +11,7 @@ import lombok.Data;
  * @date: 2021-07-26 18:07
  **/
 @Data
-public class OriginalBean {
+public class OriginalBean implements CompareData, OperationRelationCompareData {
 
     private Long id;
 
@@ -25,5 +27,10 @@ public class OriginalBean {
      * 操作人名称
      */
     private String operationName;
+
+    /**
+     * 操作类型
+     */
+    private String operationType;
 
 }

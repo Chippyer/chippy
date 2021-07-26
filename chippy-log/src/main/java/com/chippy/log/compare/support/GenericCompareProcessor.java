@@ -4,12 +4,9 @@ import cn.hutool.core.util.ReflectUtil;
 import com.chippy.common.utils.ObjectsUtil;
 import com.chippy.log.compare.annotation.MonitorField;
 import com.chippy.log.compare.exception.CompareException;
-import org.springframework.beans.factory.InitializingBean;
 
 import java.lang.reflect.Field;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -19,10 +16,10 @@ import java.util.stream.Collectors;
  * @author: chippy
  * @date: 2021-05-26 16:05
  **/
-public abstract class GenericCompareProcessor<M, C extends CompareData>
-    implements CompareProcessor<M, C, GenericCompareData>, InitializingBean {
+public class GenericCompareProcessor<C extends CompareData> implements CompareProcessor<C, GenericCompareData> {
 
-    private List<ExpandField> monitorExpandFieldList = new LinkedList<>();
+    private Map<String, List<ExpandField>> monitorExpandFieldMap = new HashMap<>();
+    private Map<String, Class<?>> monitorClassMap = new HashMap<>();
 
     /**
      * 传监控对象实例进行比较监控字段
@@ -41,7 +38,9 @@ public abstract class GenericCompareProcessor<M, C extends CompareData>
         if (Objects.isNull(newCompareOperate)) {
             throw new CompareException("对比新对象数据不能为空！");
         }
-        final List<ExpandField> monitorFieldList = this.getMonitorFieldList();
+        this.doInitMonitorRelationInfoIfNecessary(newCompareOperate);
+        final String className = newCompareOperate.getClass().getName();
+        final List<ExpandField> monitorFieldList = this.getMonitorFieldList(className);
         // old object is empty
         if (Objects.isNull(oldCompareOperate)) {
             return monitorFieldList.stream()
@@ -56,13 +55,18 @@ public abstract class GenericCompareProcessor<M, C extends CompareData>
             final Object newFieldValue = ReflectUtil.getFieldValue(newCompareOperate, expandField.getField());
             final Object oldFieldValue = ReflectUtil.getFieldValue(oldCompareOperate, expandField.getField());
             final boolean monitorFieldValueEq = Objects.equals(newFieldValue, oldFieldValue);
-            return monitorFieldValueEq ? null : buildOperateBo(newCompareOperate, oldCompareOperate, expandField);
+            return monitorFieldValueEq ? null : this.buildOperateBo(newCompareOperate, oldCompareOperate, expandField);
         }).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
-    @Override
-    public void afterPropertiesSet() {
-        this.initProperties();
+    private void doInitMonitorRelationInfoIfNecessary(CompareData newCompareOperate) {
+        final Class<? extends CompareData> compareOperateClass = newCompareOperate.getClass();
+        final String className = compareOperateClass.getName();
+        if (ObjectsUtil.isNotEmpty(monitorClassMap.get(className))) {
+            return;
+        }
+        this.monitorClassMap.put(className, compareOperateClass);
+        this.monitorExpandFieldMap.put(className, this.getMonitorFieldList(newCompareOperate));
     }
 
     /**
@@ -87,7 +91,11 @@ public abstract class GenericCompareProcessor<M, C extends CompareData>
         genericCompareData.setNewItem(newFieldValue);
         genericCompareData.setOperationId(newCompareData.getOperationId());
         genericCompareData.setOperationName(newCompareData.getOperationName());
-        genericCompareData.setOperationType(newCompareData.getOperationType());
+        if (newCompareData instanceof OperationRelationCompareData) {
+            final OperationRelationCompareData operationRelationCompareData =
+                (OperationRelationCompareData)newCompareData;
+            genericCompareData.setOperationType(operationRelationCompareData.getOperationType());
+        }
         if (Objects.nonNull(oldCompareData)) {
             genericCompareData
                 .setOldItem(String.valueOf(ReflectUtil.getFieldValue(oldCompareData, expandField.getField())));
@@ -95,22 +103,23 @@ public abstract class GenericCompareProcessor<M, C extends CompareData>
         return genericCompareData;
     }
 
-    private void initProperties() {
-        final Field[] fields = ReflectUtil.getFields(this.getMonitorClass());
+    private List<ExpandField> getMonitorFieldList(String className) {
+        return this.monitorExpandFieldMap.get(className);
+    }
+
+    private List<ExpandField> getMonitorFieldList(CompareData newCompareOperate) {
+        final Field[] fields = ReflectUtil.getFields(newCompareOperate.getClass());
+        if (ObjectsUtil.isEmpty(fields)) {
+            return Collections.emptyList();
+        }
+        final List<ExpandField> expandFieldList = new ArrayList<>(fields.length);
         for (Field field : fields) {
-            this.doInitMonitorExpendFieldList(field);
+            final MonitorField monitorField = field.getAnnotation(MonitorField.class);
+            if (Objects.nonNull(monitorField)) {
+                expandFieldList.add(new ExpandField(field, monitorField.operateDesc()));
+            }
         }
-    }
-
-    private void doInitMonitorExpendFieldList(Field field) {
-        final MonitorField monitorField = field.getAnnotation(MonitorField.class);
-        if (Objects.nonNull(monitorField)) {
-            this.monitorExpandFieldList.add(new ExpandField(field, monitorField.operateDesc()));
-        }
-    }
-
-    private List<ExpandField> getMonitorFieldList() {
-        return this.monitorExpandFieldList;
+        return expandFieldList;
     }
 
 }
