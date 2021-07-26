@@ -30,6 +30,7 @@ public abstract class GenericCompareProcessor<R extends GenericCompareData> impl
      * @author chippy
      * @date 2021-05-26 21:44
      */
+    @SuppressWarnings("unchecked")
     protected R buildOperateBo(GenericCompareData newCompareData, GenericCompareData oldCompareData,
         ExpandField expandField) {
         final String newFieldValue = String.valueOf(ReflectUtil.getFieldValue(newCompareData, expandField.getField()));
@@ -38,6 +39,7 @@ public abstract class GenericCompareProcessor<R extends GenericCompareData> impl
         }
         // 通用字段信息构建
         final GenericCompareData genericCompareData = new GenericCompareData();
+        genericCompareData.setItemName(expandField.getField().getName());
         genericCompareData.setNewItem(newFieldValue);
         genericCompareData.setOperationId(newCompareData.getOperationId());
         genericCompareData.setOperationName(newCompareData.getOperationName());

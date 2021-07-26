@@ -17,7 +17,7 @@ public class Main {
         newTestBean1.setOperationId("1");
         newTestBean1.setOperationName("chippy");
         final TestBean newTestBean2 = new TestBean();
-        newTestBean2.setName("lisi");
+        newTestBean2.setName("zhangsans");
         final TestBeanCompareProcessor testBeanCompareProcessor = new TestBeanCompareProcessor();
         final List<TestBean> testBeans = testBeanCompareProcessor.compareAndGet(newTestBean1, newTestBean2);
         System.out.println(JSONUtil.toJsonStr(testBeans));
