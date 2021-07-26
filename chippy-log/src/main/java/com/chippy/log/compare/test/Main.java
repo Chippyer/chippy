@@ -1,6 +1,7 @@
 package com.chippy.log.compare.test;
 
 import cn.hutool.json.JSONUtil;
+import com.chippy.log.compare.support.GenericCompareData;
 
 import java.util.List;
 
@@ -21,9 +22,9 @@ public class Main {
         newTestBean2.setName("zhangsans");
         final TestBeanCompareProcessor testBeanCompareProcessor = new TestBeanCompareProcessor();
         testBeanCompareProcessor.afterPropertiesSet();
-        final List<OriginalBeanOperateLog> originalBeanOperateLogs =
+        final List<GenericCompareData> genericCompareData =
             testBeanCompareProcessor.compareAndGet(newTestBean1, newTestBean2);
-        System.out.println(JSONUtil.toJsonStr(originalBeanOperateLogs));
+        System.out.println(JSONUtil.toJsonStr(genericCompareData));
     }
 
 }

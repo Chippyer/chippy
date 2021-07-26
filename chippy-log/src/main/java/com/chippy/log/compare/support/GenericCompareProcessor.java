@@ -19,44 +19,14 @@ import java.util.stream.Collectors;
  * @author: chippy
  * @date: 2021-05-26 16:05
  **/
-public abstract class GenericCompareProcessor<M, C extends CompareData, R>
-    implements CompareProcessor<M, C, R>, InitializingBean {
+public abstract class GenericCompareProcessor<M, C extends CompareData>
+    implements CompareProcessor<M, C, GenericCompareData>, InitializingBean {
 
     private List<ExpandField> monitorExpandFieldList = new LinkedList<>();
 
     /**
-     * 构建最终需要返回的日志类实例
-     *
-     * @param newCompareData new object(not null)
-     * @param oldCompareData old(exists) object
-     * @param expandField    monitor field
-     * @return R
-     * @author chippy
-     * @date 2021-05-26 21:44
-     */
-    @SuppressWarnings("unchecked")
-    protected R buildOperateBo(CompareData newCompareData, CompareData oldCompareData, ExpandField expandField) {
-        final String newFieldValue = String.valueOf(ReflectUtil.getFieldValue(newCompareData, expandField.getField()));
-        if (ObjectsUtil.isEmpty(newFieldValue)) {
-            return null;
-        }
-        // 通用字段信息构建
-        final GenericCompareData genericCompareData = new GenericCompareData();
-        genericCompareData.setItemName(expandField.getField().getName());
-        genericCompareData.setNewItem(newFieldValue);
-        genericCompareData.setOperationId(newCompareData.getOperationId());
-        genericCompareData.setOperationName(newCompareData.getOperationName());
-        genericCompareData.setOperationType(newCompareData.getOperationType());
-        if (Objects.nonNull(oldCompareData)) {
-            genericCompareData
-                .setOldItem(String.valueOf(ReflectUtil.getFieldValue(oldCompareData, expandField.getField())));
-        }
-        return (R)genericCompareData;
-    }
-
-    /**
      * 传监控对象实例进行比较监控字段
-     * 发生变化的监控字段赋值生成{@link R}实例返回
+     * 发生变化的监控字段赋值生成{@link GenericCompareData}实例返回
      * <p>
      * newCompareOperate(new object)参数不能为空！
      *
@@ -67,7 +37,7 @@ public abstract class GenericCompareProcessor<M, C extends CompareData, R>
      * @date 2021-05-25 20:52
      */
     @Override
-    public List<R> compareAndGet(CompareData newCompareOperate, CompareData oldCompareOperate) {
+    public List<GenericCompareData> compareAndGet(CompareData newCompareOperate, CompareData oldCompareOperate) {
         if (Objects.isNull(newCompareOperate)) {
             throw new CompareException("对比新对象数据不能为空！");
         }
@@ -93,7 +63,36 @@ public abstract class GenericCompareProcessor<M, C extends CompareData, R>
     @Override
     public void afterPropertiesSet() {
         this.initProperties();
+    }
 
+    /**
+     * 构建最终需要返回的日志类实例
+     *
+     * @param newCompareData new object(not null)
+     * @param oldCompareData old(exists) object
+     * @param expandField    monitor field
+     * @return R
+     * @author chippy
+     * @date 2021-05-26 21:44
+     */
+    private GenericCompareData buildOperateBo(CompareData newCompareData, CompareData oldCompareData,
+        ExpandField expandField) {
+        final String newFieldValue = String.valueOf(ReflectUtil.getFieldValue(newCompareData, expandField.getField()));
+        if (ObjectsUtil.isEmpty(newFieldValue)) {
+            return null;
+        }
+        // 通用字段信息构建
+        final GenericCompareData genericCompareData = new GenericCompareData();
+        genericCompareData.setItemName(expandField.getField().getName());
+        genericCompareData.setNewItem(newFieldValue);
+        genericCompareData.setOperationId(newCompareData.getOperationId());
+        genericCompareData.setOperationName(newCompareData.getOperationName());
+        genericCompareData.setOperationType(newCompareData.getOperationType());
+        if (Objects.nonNull(oldCompareData)) {
+            genericCompareData
+                .setOldItem(String.valueOf(ReflectUtil.getFieldValue(oldCompareData, expandField.getField())));
+        }
+        return genericCompareData;
     }
 
     private void initProperties() {
