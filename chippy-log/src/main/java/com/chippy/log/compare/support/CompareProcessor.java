@@ -9,7 +9,7 @@ import java.util.List;
  * @author: chippy
  * @date: 2021-07-24 17:07
  **/
-public interface CompareProcessor<C extends CompareData, R> {
+public interface CompareProcessor<C, R> {
 
     /**
      * 对比新老对象，并返回监控字段中被修改的值组成比较结果集合

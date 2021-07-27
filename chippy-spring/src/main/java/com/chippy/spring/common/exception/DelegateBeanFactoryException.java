@@ -1,4 +1,4 @@
-package com.chippy.spring.exception;
+package com.chippy.spring.common.exception;
 
 /**
  * 基于Spring BeanFactory实现的托管业务工厂异常

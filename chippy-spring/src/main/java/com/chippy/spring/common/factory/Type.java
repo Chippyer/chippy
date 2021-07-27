@@ -1,4 +1,4 @@
-package com.chippy.spring.common;
+package com.chippy.spring.common.factory;
 
 import java.util.List;
 

@@ -1,8 +1,8 @@
-package com.chippy.spring.common;
+package com.chippy.spring.common.factory;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.chippy.common.utils.ObjectsUtil;
-import com.chippy.spring.exception.DelegateBeanFactoryException;
+import com.chippy.spring.common.exception.DelegateBeanFactoryException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 

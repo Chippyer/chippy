@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  * @author: chippy
  * @date: 2021-05-26 16:05
  **/
-public class GenericCompareProcessor<C extends CompareData> implements CompareProcessor<C, GenericCompareData> {
+public class GenericCompareProcessor implements CompareProcessor<CompareData, GenericCompareData> {
 
     private Map<String, List<ExpandField>> monitorExpandFieldMap = new HashMap<>();
     private Map<String, Class<?>> monitorClassMap = new HashMap<>();
