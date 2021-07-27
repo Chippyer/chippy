@@ -20,7 +20,7 @@ import java.util.concurrent.locks.ReentrantLock;
 @Service
 public class DelegateBeanFactory {
 
-    private static final String ERROR_LOG = "没有找到对应的服务-[type: %s]";
+    private static final String ERROR_LOG = "没有找到对应的服务-[class:%s, type: %s]";
     private static final long DEFAULT_LOCK_TIME = 1000L;
     private ReentrantLock refreshBeanCacheLock = new ReentrantLock();
     private final Map<Class<?>, Map<String, ? extends Type>> COPY_CONTEXT_BEAN_CACHE = new HashMap<>();
@@ -29,15 +29,15 @@ public class DelegateBeanFactory {
     private ApplicationContext applicationContext;
 
     @SuppressWarnings("unchecked")
-    public <T extends Type> T getBean(String type, Class<? extends Type> clazz) {
+    public <T extends Type> T getBean(String type, Class<T> clazz) {
         final Map<String, ? extends Type> beanMap = this.getBeanMap(clazz);
         return (T)this.doGetBean(type, beanMap);
     }
 
-    public <T extends Type> T getBean(String type, Class<? extends Type> clazz, boolean isValidateNull) {
+    public <T extends Type> T getBean(String type, Class<T> clazz, boolean isValidateNull) {
         final T bean = this.getBean(type, clazz);
         if (isValidateNull && Objects.isNull(bean)) {
-            throw new DelegateBeanFactoryException(String.format(ERROR_LOG, type));
+            throw new DelegateBeanFactoryException(String.format(ERROR_LOG, clazz.getName(), type));
         }
         return bean;
     }

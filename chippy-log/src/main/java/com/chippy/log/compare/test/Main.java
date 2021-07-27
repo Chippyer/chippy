@@ -21,7 +21,7 @@ public class Main {
         newTestBean1.setOperationType("UPDATE");
         final OriginalBean newTestBean2 = new OriginalBean();
         newTestBean2.setName("zhangsans");
-        final GenericCompareProcessor<OriginalBean> testBeanCompareProcessor = new GenericCompareProcessor<>();
+        final GenericCompareProcessor testBeanCompareProcessor = new GenericCompareProcessor();
         final List<GenericCompareData> genericCompareData =
             testBeanCompareProcessor.compareAndGet(newTestBean1, newTestBean2);
         System.out.println(JSONUtil.toJsonStr(genericCompareData));
