@@ -40,4 +40,9 @@ public class GenericCompareData implements CompareData {
      */
     private String operationName;
 
+    /**
+     * 操作描述
+     */
+    private String operationDesc;
+
 }

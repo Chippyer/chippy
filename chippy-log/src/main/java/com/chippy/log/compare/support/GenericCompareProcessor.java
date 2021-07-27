@@ -88,6 +88,7 @@ public class GenericCompareProcessor implements CompareProcessor<CompareData, Ge
         // 通用字段信息构建
         final GenericCompareData genericCompareData = new GenericCompareData();
         genericCompareData.setItemName(expandField.getField().getName());
+        genericCompareData.setOperationDesc(expandField.getOperateDesc());
         genericCompareData.setNewItem(newFieldValue);
         genericCompareData.setOperationId(newCompareData.getOperationId());
         genericCompareData.setOperationName(newCompareData.getOperationName());
