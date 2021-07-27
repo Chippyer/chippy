@@ -11,6 +11,8 @@
 
     <artifactId>chippy-feign</artifactId>
 
+    <description>基于Feign框架实现的扩展操作</description>
+
     <dependencies>
         <dependency>
             <groupId>com.chippy</groupId>

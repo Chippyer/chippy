@@ -11,6 +11,8 @@
 
     <artifactId>chippy-common</artifactId>
 
+    <description>基于hutool工具包封装项目中使用的相关工具操作</description>
+
     <dependencies>
         <dependency>
             <groupId>cn.hutool</groupId>

@@ -11,6 +11,7 @@
         <module>user-01</module>
         <module>register-01</module>
         <module>chippy-log</module>
+        <module>chippy-spring</module>
     </modules>
 
     <properties>
