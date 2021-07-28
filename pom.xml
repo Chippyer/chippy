@@ -7,9 +7,6 @@
     <modules>
         <module>chippy-feign</module>
         <module>chippy-common</module>
-        <module>order-01</module>
-        <module>user-01</module>
-        <module>register-01</module>
         <module>chippy-log</module>
         <module>chippy-spring</module>
     </modules>
@@ -46,7 +43,7 @@
 
     <groupId>io.gitee.chippyer</groupId>
     <artifactId>chippy-parent</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
 
     <dependencies>
         <dependency>
