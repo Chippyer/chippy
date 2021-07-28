@@ -11,6 +11,30 @@
         <module>chippy-spring</module>
     </modules>
 
+    <url>https://gitee.com/chippyer</url>
+
+    <scm>
+        <url>https://gitee.com/chippyer</url>
+        <connection>scm:git:https://gitee.com/chippyer/chippy.git</connection>
+        <developerConnection>scm:git:https://gitee.com/chippyer/chippy.git</developerConnection>
+    </scm>
+
+    <developers>
+        <developer>
+            <id>chippy</id>
+            <name>chippy</name>
+            <email>450799968@qq.com</email>
+            <timezone>+8</timezone>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
     <properties>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
@@ -43,7 +67,7 @@
 
     <groupId>io.gitee.chippyer</groupId>
     <artifactId>chippy-parent</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.1-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
@@ -79,7 +103,7 @@
             </activation>
             <build>
                 <plugins>
-                    <!-- 要生成Javadoc和Source jar文件，您必须配置javadoc和源Maven插件 -->
+                    <!-- Source -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
@@ -87,12 +111,14 @@
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
+                                <phase>package</phase>
                                 <goals>
                                     <goal>jar-no-fork</goal>
                                 </goals>
                             </execution>
                         </executions>
                     </plugin>
+                    <!-- Javadoc -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
@@ -118,12 +144,24 @@
                             </execution>
                         </executions>
                     </plugin>
-                    <plugin>
+                    <!--<plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-deploy-plugin</artifactId>
                         <version>2.8.2</version>
                         <configuration>
                             <skip>true</skip>
+                        </configuration>
+                    </plugin>-->
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.7</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <!-- 与 setting.xml 的 server 配置中的 sonatype-release 对应-->
+                            <serverId>Releases</serverId>
+                            <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
                         </configuration>
                     </plugin>
                 </plugins>
@@ -131,9 +169,13 @@
             <!-- 【注】snapshotRepository 与 repository 中的 id 一定要与 setting.xml 中 server 的 id 保持一致！ -->
             <distributionManagement>
                 <snapshotRepository>
-                    <id>iogiteechippyer-1003</id>
-                    <url>https://s01.oss.sonatype.org/content/repositories/iogiteechippyer-1003/</url>
+                    <id>Snapshots</id>
+                    <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
                 </snapshotRepository>
+                <repository>
+                    <id>Releases</id>
+                    <url>https://s01.oss.sonatype.org/content/repositories/releases/</url>
+                </repository>
             </distributionManagement>
         </profile>
     </profiles>
