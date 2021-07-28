@@ -3,9 +3,9 @@ package com.chippy.log.compare.support;
 import lombok.Data;
 
 /**
- * @title: 规定操作日志比较时的基础属性
+ * 规定操作日志比较时的基础属性
+ *
  * @author: chippy
- * @date: 2021-05-26 11:05
  **/
 @Data
 public class GenericCompareData implements CompareData {

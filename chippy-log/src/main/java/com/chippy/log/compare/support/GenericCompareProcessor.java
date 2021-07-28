@@ -10,29 +10,17 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * @title: 通用操作日志比较核心处理器实现
- * 实现同类型均为{@link CompareData}类型对象实例的比较
+ * 通用操作日志比较核心处理器实现
+ * 实现同类型均为{@link GenericCompareData}类型对象实例的比较
  * 并根据指定监控注解{@link MonitorField}监控字段变化值而生成日志实例
+ *
  * @author: chippy
- * @date: 2021-05-26 16:05
  **/
 public class GenericCompareProcessor implements CompareProcessor<CompareData, GenericCompareData> {
 
     private Map<String, List<ExpandField>> monitorExpandFieldMap = new HashMap<>();
     private Map<String, Class<?>> monitorClassMap = new HashMap<>();
 
-    /**
-     * 传监控对象实例进行比较监控字段
-     * 发生变化的监控字段赋值生成{@link GenericCompareData}实例返回
-     * <p>
-     * newCompareOperate(new object)参数不能为空！
-     *
-     * @param newCompareOperate new object(not null)
-     * @param oldCompareOperate old(exists) object
-     * @return java.util.List<com.gd.gcmp.pigeon.platform.service.operate.bo.OperateBo>
-     * @author chippy
-     * @date 2021-05-25 20:52
-     */
     @Override
     public List<GenericCompareData> compareAndGet(CompareData newCompareOperate, CompareData oldCompareOperate) {
         if (Objects.isNull(newCompareOperate)) {

@@ -8,9 +8,9 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 
 /**
- * @title: 扩展属性对象
+ * 扩展属性对象
+ *
  * @author: chippy
- * @date: 2021-07-24 17:07
  **/
 @Data
 @AllArgsConstructor

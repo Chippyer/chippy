@@ -29,7 +29,7 @@
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.chippy</groupId>
+            <groupId>io.gitee.chippyer</groupId>
             <artifactId>chippy-feign</artifactId>
             <version>${project.version}</version>
         </dependency>

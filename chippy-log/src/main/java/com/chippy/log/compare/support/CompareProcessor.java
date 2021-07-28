@@ -3,11 +3,9 @@ package com.chippy.log.compare.support;
 import java.util.List;
 
 /**
- * @title: 对象对比处理器
- * Type C: 比较对象类型
- * Type R: 比较返回结果类型
+ * 对象对比处理器
+ *
  * @author: chippy
- * @date: 2021-07-24 17:07
  **/
 public interface CompareProcessor<C, R> {
 
@@ -16,9 +14,8 @@ public interface CompareProcessor<C, R> {
      *
      * @param newCompareData 新对象
      * @param oldCompareData 老对象
-     * @return java.util.List<com.chippy.log.compare.support.CompareData>
+     * @return 返回对比后不同的比较操作信息
      * @author chippy
-     * @date 2021-07-24 17:43
      */
     List<R> compareAndGet(C newCompareData, C oldCompareData);
 
