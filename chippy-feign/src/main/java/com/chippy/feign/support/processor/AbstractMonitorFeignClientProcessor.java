@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
  * 保证顺序优先，因为我们调度{@link FeignClientProcessor}时采用倒序执行
  *
  * @author: chippy
- * @datetime 2020-12-15 15:34
  */
 @Slf4j
 public abstract class AbstractMonitorFeignClientProcessor implements FeignClientProcessor {

@@ -15,7 +15,6 @@ import java.util.concurrent.locks.ReentrantLock;
  * 基于Spring BeanFactory更贴近业务的bean工厂
  *
  * @author: chippy
- * @datetime 2021/7/5 22:59
  */
 @Service
 public class DelegateBeanFactory {

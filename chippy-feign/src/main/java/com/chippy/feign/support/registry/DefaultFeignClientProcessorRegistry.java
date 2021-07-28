@@ -23,7 +23,7 @@ import java.util.Set;
  * 默认Feign请求处理器实现
  *
  * @author: chippy
- * @datetime 2020/12/13 15:31
+ * 2020/12/13 15:31
  */
 @Slf4j
 public class DefaultFeignClientProcessorRegistry implements ProcessorRegistry, InitializingBean {

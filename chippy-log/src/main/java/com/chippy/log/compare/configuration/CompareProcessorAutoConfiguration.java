@@ -5,9 +5,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @title: 对象比较器自动配置类
+ * 对象比较器自动配置类
+ *
  * @author: chippy
- * @date: 2021-07-27 14:07
  **/
 @Configuration
 public class CompareProcessorAutoConfiguration {

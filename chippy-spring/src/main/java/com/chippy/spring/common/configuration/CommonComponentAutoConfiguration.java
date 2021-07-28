@@ -5,9 +5,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @title: 公共组件自动配置类
+ * 公共组件自动配置类
+ *
  * @author: chippy
- * @date: 2021-07-27 14:07
  **/
 @Configuration
 public class CommonComponentAutoConfiguration {

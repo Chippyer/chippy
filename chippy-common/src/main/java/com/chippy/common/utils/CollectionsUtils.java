@@ -16,6 +16,8 @@ public class CollectionsUtils extends CollectionUtil {
     /**
      * 将传入数据按指定数量{len}切分为多个子集集合
      *
+     * @param sourceList 源数据集合
+     * @param size       切分子集合大小
      * @author chippy
      */
     public static <T> List<List<T>> subListBySize(List<T> sourceList, int size) {

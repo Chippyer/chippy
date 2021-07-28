@@ -7,7 +7,6 @@ import cn.hutool.core.date.DateTime;
  * 继承自{@link DateTime}，在此基础上扩张相关功能
  *
  * @author: chippy
- * @datetime 2020-12-11 17:50
  */
 public class DateUtil extends cn.hutool.core.date.DateUtil {
 

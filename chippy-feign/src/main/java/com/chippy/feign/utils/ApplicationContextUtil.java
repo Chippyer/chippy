@@ -3,9 +3,9 @@ package com.chippy.feign.utils;
 import cn.hutool.core.bean.BeanException;
 
 /**
- * @title: Spring应用上下文工具类
+ * Spring应用上下文工具类
+ *
  * @author: chippy
- * @date: 2021-07-23 16:07
  **/
 public class ApplicationContextUtil {
 

@@ -6,9 +6,9 @@ import org.springframework.core.annotation.Order;
 import java.util.Comparator;
 
 /**
- * @title: FeignClient增强处理器比较器
+ * FeignClient增强处理器比较器
+ *
  * @author: chippy
- * @date: 2021-07-23 16:07
  **/
 public class FeignClientProcessorComparator implements Comparator<FeignClientProcessor> {
 

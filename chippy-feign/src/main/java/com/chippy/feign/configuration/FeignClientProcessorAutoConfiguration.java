@@ -16,7 +16,6 @@ import javax.annotation.Resource;
  * FeignClient请求扩展处理器自动配置
  *
  * @author: chippy
- * @datetime 2021/7/23 23:01
  */
 @Configuration
 public class FeignClientProcessorAutoConfiguration {

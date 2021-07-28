@@ -3,9 +3,9 @@ package com.chippy.feign.support.registry;
 import lombok.Data;
 
 /**
- * @title: 请求元素信息
+ * 请求元素信息
+ *
  * @author: chippy
- * @date: 2021-07-23 16:07
  **/
 @Data
 public class RequestElement {

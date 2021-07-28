@@ -65,7 +65,6 @@ public class GenericCompareProcessor implements CompareProcessor<CompareData, Ge
      * @param expandField    monitor field
      * @return R
      * @author chippy
-     * @date 2021-05-26 21:44
      */
     private GenericCompareData buildOperateBo(CompareData newCompareData, CompareData oldCompareData,
         ExpandField expandField) {

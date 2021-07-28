@@ -1,9 +1,9 @@
 package com.chippy.feign.exception;
 
 /**
- * @title: FeignClient调用结果异常
+ * FeignClient调用结果异常
+ *
  * @author: chippy
- * @date: 2021-07-24 10:07
  **/
 public class FeignClientRequestException extends RuntimeException {
 

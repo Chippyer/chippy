@@ -28,6 +28,7 @@ public class StringUtil {
      *
      * @param str 字节内容
      * @return java.lang.String
+     * @throws IOException
      * @author chippy
      */
     public static byte[] toBytes(String str) throws IOException {

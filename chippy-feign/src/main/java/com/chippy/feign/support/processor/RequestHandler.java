@@ -4,9 +4,9 @@ import com.chippy.common.result.Result;
 import org.aspectj.lang.ProceedingJoinPoint;
 
 /**
- * @title: 请求处理器
+ * 请求处理器
+ *
  * @author: chippy
- * @date: 2021-07-24 11:07
  **/
 public interface RequestHandler {
 
@@ -17,7 +17,6 @@ public interface RequestHandler {
      * @param joinPoint 切入点
      * @return com.chippy.common.result.Result
      * @author chippy
-     * @date 2021-07-24 11:15
      */
     Result execute(ProceedingJoinPoint joinPoint);
 

@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
  * 日志功能FeignClientHelper调用时的处理器
  *
  * @author: chippy
- * @datetime 2020/12/13 15:43
  */
 @Slf4j
 public abstract class AbstractLogFeignClientProcessor implements FeignClientProcessor {

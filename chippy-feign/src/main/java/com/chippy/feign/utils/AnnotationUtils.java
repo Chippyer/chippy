@@ -13,7 +13,6 @@ import java.util.Objects;
  * 基于Spring容器的注解工具类
  *
  * @author: chippy
- * @datetime 2020-12-11 12:35
  */
 public class AnnotationUtils extends org.springframework.core.annotation.AnnotationUtils {
 

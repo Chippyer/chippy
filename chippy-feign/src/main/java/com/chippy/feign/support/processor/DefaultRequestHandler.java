@@ -1,8 +1,8 @@
 package com.chippy.feign.support.processor;
 
 import com.chippy.common.result.Result;
-import com.chippy.feign.exception.FeignClientRequestException;
 import com.chippy.feign.annotation.EnhanceRequest;
+import com.chippy.feign.exception.FeignClientRequestException;
 import com.chippy.feign.support.registry.ProcessorManager;
 import com.chippy.feign.support.registry.RequestElement;
 import lombok.extern.slf4j.Slf4j;
@@ -12,9 +12,9 @@ import org.aspectj.lang.reflect.MethodSignature;
 import java.util.List;
 
 /**
- * @title: 默认请求处理器实现
+ * 默认请求处理器实现
+ *
  * @author: chippy
- * @date: 2021-07-24 11:07
  **/
 @Slf4j
 public class DefaultRequestHandler implements RequestHandler {

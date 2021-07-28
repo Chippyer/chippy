@@ -1,13 +1,14 @@
 package com.chippy.common.exception;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 响应异常，包含响应状态
  *
  * @author: chippy
- * @datetime 2020-12-28 16:34
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class ResponseStatusException extends RuntimeException {
 
