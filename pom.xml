@@ -67,7 +67,7 @@
 
     <groupId>io.gitee.chippyer</groupId>
     <artifactId>chippy-parent</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
 
     <dependencies>
         <dependency>
