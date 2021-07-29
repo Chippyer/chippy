@@ -10,6 +10,7 @@ public interface Result<T> {
     /**
      * 成功的Code编码值
      *
+     * @return 成功CODE码
      * @author chippy
      */
     int definitionSuccessCode();
@@ -17,6 +18,7 @@ public interface Result<T> {
     /**
      * 通讯返回编码值
      *
+     * @return 响应CODE码
      * @author chippy
      */
     int getCode();
@@ -32,6 +34,7 @@ public interface Result<T> {
     /**
      * 通讯返回结果内容
      *
+     * @return 数据结果
      * @author chippy
      */
     T getData();
@@ -39,6 +42,7 @@ public interface Result<T> {
     /**
      * 通讯返回错误信息
      *
+     * @return 错误信息
      * @author chippy
      */
     String getErrorMsg();

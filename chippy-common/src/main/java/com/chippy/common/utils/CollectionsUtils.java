@@ -18,6 +18,7 @@ public class CollectionsUtils extends CollectionUtil {
      *
      * @param sourceList 源数据集合
      * @param size       切分子集合大小
+     * @return 切分后的结果
      * @author chippy
      */
     public static <T> List<List<T>> subListBySize(List<T> sourceList, int size) {
@@ -49,6 +50,7 @@ public class CollectionsUtils extends CollectionUtil {
      *
      * @param sourceList 源数据集合
      * @param batchNum   转换后的个数
+     * @return 切分后的结果
      * @author chippy
      */
     public static <T> List<List<T>> subListForBatchNum(List<T> sourceList, int batchNum) {
