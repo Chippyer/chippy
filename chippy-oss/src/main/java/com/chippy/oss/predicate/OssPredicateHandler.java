@@ -2,6 +2,7 @@ package com.chippy.oss.predicate;
 
 import com.chippy.common.utils.ObjectsUtil;
 import com.chippy.oss.context.OssRequestContext;
+import com.chippy.oss.context.UploadResult;
 import com.chippy.oss.exception.OssPredicateException;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +19,10 @@ import java.util.Map;
 public class OssPredicateHandler {
 
     @Resource
-    private Map<String, List<OssPredicate>> ossPredicateMap;
+    private Map<String /*clientName*/, List<OssPredicate>> ossPredicateMap;
 
-    public void handler(OssRequestContext ossRequestContext) {
-        final List<OssPredicate> ossPredicateList = ossPredicateMap.get(ossRequestContext.getClientType());
+    public void preHandler(OssRequestContext ossRequestContext) {
+        final List<OssPredicate> ossPredicateList = ossPredicateMap.get(ossRequestContext.getClientName());
         if (ObjectsUtil.isEmpty(ossPredicateList)) {
             return;
         }
@@ -30,6 +31,9 @@ public class OssPredicateHandler {
                 throw new OssPredicateException(ossPredicate.getErrorMsg());
             }
         }
+    }
+
+    public void postHandler(OssRequestContext ossRequestContext, UploadResult uploadResult) {
     }
 
 }

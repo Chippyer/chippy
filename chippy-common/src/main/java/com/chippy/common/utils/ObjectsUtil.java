@@ -2,6 +2,7 @@ package com.chippy.common.utils;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 对象判空工具类
@@ -47,13 +48,17 @@ public class ObjectsUtil {
         if (obj instanceof String) {
             result = (obj.toString().trim().length() == 0) || obj.toString().trim().equals("null");
         } else if (obj instanceof Collection) {
-            result = ((Collection<?>) obj).isEmpty();
+            result = ((Collection<?>)obj).isEmpty();
         } else if (obj instanceof Map) {
-            result = ((Map<?, ?>) obj).isEmpty();
+            result = ((Map<?, ?>)obj).isEmpty();
         } else {
             result = obj.toString().trim().length() < 1;
         }
         return result;
+    }
+
+    public static boolean eqIgnoreAttach(String a, String b) {
+        return Objects.equals(a.trim().toLowerCase(), b.trim().toLowerCase());
     }
 
 }
