@@ -9,6 +9,7 @@
         <module>chippy-common</module>
         <module>chippy-log</module>
         <module>chippy-spring</module>
+        <module>chippy-oss</module>
     </modules>
 
     <url>https://gitee.com/chippyer</url>
