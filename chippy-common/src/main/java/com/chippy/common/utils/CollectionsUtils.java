@@ -16,6 +16,7 @@ public class CollectionsUtils extends CollectionUtil {
     /**
      * 将传入数据按指定数量{len}切分为多个子集集合
      *
+     * @param <T>        返回类型
      * @param sourceList 源数据集合
      * @param size       切分子集合大小
      * @return 切分后的结果
@@ -48,6 +49,7 @@ public class CollectionsUtils extends CollectionUtil {
      * 将传入数据按指定数量{batchNum}切分为指定数量的子集集合
      * 如果传入的元数据大小小于指定切分子集集合数量则直接返回一个子集集合数据
      *
+     * @param <T>        返回类型
      * @param sourceList 源数据集合
      * @param batchNum   转换后的个数
      * @return 切分后的结果

@@ -9,26 +9,18 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>chippy-spring</artifactId>
-
-    <description>基于Spring环境包装的日常基本操作封装</description>
+    <artifactId>chippy-oss-example</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>io.gitee.chippyer</groupId>
-            <artifactId>chippy-common</artifactId>
+            <artifactId>chippy-oss</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>5.3.8</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
     </dependencies>
 

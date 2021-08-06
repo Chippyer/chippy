@@ -16,7 +16,6 @@ public interface OssPredicate extends Predicate<OssRequestContext> {
      *
      * @return java.lang.String
      * @author chippy
-     * @date 2021-08-05 19:57
      */
     String getErrorMsg();
 

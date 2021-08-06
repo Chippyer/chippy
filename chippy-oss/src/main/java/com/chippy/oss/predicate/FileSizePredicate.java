@@ -1,12 +1,11 @@
 package com.chippy.oss.predicate;
 
 import com.chippy.common.utils.ObjectsUtil;
-import com.chippy.oss.configuration.OssProperties;
+import com.chippy.oss.configuration.predicate.OssPredicateProperties;
 import com.chippy.oss.context.OssRequestContext;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -14,19 +13,24 @@ import java.util.stream.Collectors;
  *
  * @author: chippy
  **/
-@Service
-public class FileSizePredicate extends AbstractPredicate implements InitializingBean {
+public class FileSizePredicate extends AbstractPredicate {
 
     private Long maxSize;
 
+    public FileSizePredicate(OssPredicateProperties ossProperties) {
+        super(ossProperties);
+        this.maxSize = ossProperties.getMaxFileSize();
+    }
+
     @Override
     public boolean test(OssRequestContext ossRequestContext) {
-        final OssProperties.TypePredicateProperties fileTypePredicateProperties =
+        final OssPredicateProperties.TypePredicateProperties fileTypePredicateProperties =
             this.getFileTypePredicateProperties(ossRequestContext);
-        if (ObjectsUtil.isEmpty(fileTypePredicateProperties)) {
+        final boolean isEmpty = ObjectsUtil.isEmpty(fileTypePredicateProperties);
+        final boolean isInvalid = Objects.equals(fileTypePredicateProperties.getMaxSize(), 0L);
+        if (isEmpty || isInvalid) {
             return ossRequestContext.getFileSize() < maxSize;
         }
-
         final Long finalMaxSize = this.getMaxSize(fileTypePredicateProperties);
         return ossRequestContext.getFileSize() < finalMaxSize;
     }
@@ -36,23 +40,19 @@ public class FileSizePredicate extends AbstractPredicate implements Initializing
         return String.format("上传文件最大-[%s]", ossProperties.getMaxFileSize());
     }
 
-    @Override
-    public void afterPropertiesSet() {
-        maxSize = ossProperties.getMaxFileSize();
-    }
-
-    private Long getMaxSize(OssProperties.TypePredicateProperties fileTypePredicateProperties) {
-        final Long maxFileSize = ossProperties.getMaxFileSize();
-        final Long maxSize = fileTypePredicateProperties.getMaxSize();
+    private Long getMaxSize(OssPredicateProperties.TypePredicateProperties fileTypePredicateProperties) {
+        final long maxFileSize = ossProperties.getMaxFileSize();
+        final long maxSize = fileTypePredicateProperties.getMaxSize();
         return Math.min(maxSize, maxFileSize);
     }
 
-    private OssProperties.TypePredicateProperties getFileTypePredicateProperties(OssRequestContext ossRequestContext) {
-        final List<OssProperties.TypePredicateProperties> typePredicatePropertiesList =
-            ossProperties.getTypePredicatePropertiesList();
-        final List<OssProperties.TypePredicateProperties> filteredResult = typePredicatePropertiesList.stream().filter(
-            typePredicateProperties -> ObjectsUtil
-                .eqIgnoreAttach(typePredicateProperties.getType(), ossRequestContext.getClientType()))
+    private OssPredicateProperties.TypePredicateProperties getFileTypePredicateProperties(
+        OssRequestContext ossRequestContext) {
+        final List<OssPredicateProperties.TypePredicateProperties> typePredicatePropertiesList =
+            ossProperties.getType();
+        final List<OssPredicateProperties.TypePredicateProperties> filteredResult = typePredicatePropertiesList.stream()
+            .filter(typePredicateProperties -> ObjectsUtil
+                .eqIgnoreAttach(typePredicateProperties.getType(), ossRequestContext.getFileType()))
             .collect(Collectors.toList());
         return ObjectsUtil.isNotEmpty(filteredResult) ? filteredResult.get(0) : null;
     }

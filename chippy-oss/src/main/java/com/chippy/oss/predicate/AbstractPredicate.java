@@ -1,8 +1,6 @@
 package com.chippy.oss.predicate;
 
-import com.chippy.oss.configuration.OssProperties;
-
-import javax.annotation.Resource;
+import com.chippy.oss.configuration.predicate.OssPredicateProperties;
 
 /**
  * 抽象通用限定属性定义
@@ -11,7 +9,10 @@ import javax.annotation.Resource;
  */
 public abstract class AbstractPredicate implements OssPredicate {
 
-    @Resource
-    protected OssProperties ossProperties;
+    protected OssPredicateProperties ossProperties;
+
+    public AbstractPredicate(OssPredicateProperties ossProperties) {
+        this.ossProperties = ossProperties;
+    }
 
 }

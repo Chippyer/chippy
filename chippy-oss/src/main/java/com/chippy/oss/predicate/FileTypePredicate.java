@@ -1,8 +1,8 @@
 package com.chippy.oss.predicate;
 
+import com.chippy.oss.configuration.predicate.OssPredicateProperties;
 import com.chippy.oss.context.OssRequestContext;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,10 +12,13 @@ import java.util.stream.Collectors;
  *
  * @author: chippy
  **/
-@Service
 public class FileTypePredicate extends AbstractPredicate implements InitializingBean {
 
     private List<String> supportTypeList;
+
+    public FileTypePredicate(OssPredicateProperties ossProperties) {
+        super(ossProperties);
+    }
 
     public List<String> getSupportTypeList() {
         return supportTypeList;
@@ -41,7 +44,7 @@ public class FileTypePredicate extends AbstractPredicate implements Initializing
     }
 
     private void loadSupportTypeList() {
-        final List<String> supportTypeList = ossProperties.getTypePredicatePropertiesList().stream()
+        final List<String> supportTypeList = ossProperties.getType().stream()
             .map(typePredicateProperties -> typePredicateProperties.getType().trim().toLowerCase())
             .collect(Collectors.toList());
         this.setSupportTypeList(supportTypeList);

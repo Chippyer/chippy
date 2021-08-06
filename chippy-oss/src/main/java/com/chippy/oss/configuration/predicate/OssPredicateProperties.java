@@ -1,8 +1,7 @@
-package com.chippy.oss.configuration;
+package com.chippy.oss.configuration.predicate;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 import java.io.Serializable;
 import java.util.List;
@@ -12,21 +11,20 @@ import java.util.List;
  *
  * @author: chippy
  */
-@EnableConfigurationProperties({OssProperties.class})
 @ConfigurationProperties(prefix = "oss.predicate")
 @Data
-public class OssProperties {
+public class OssPredicateProperties {
 
-    private Long maxFileSize;
+    private long maxFileSize;
 
-    private List<TypePredicateProperties> typePredicatePropertiesList;
+    private List<TypePredicateProperties> type;
 
     @Data
     public static class TypePredicateProperties implements Serializable {
 
         private String type;
 
-        private Long maxSize;
+        private long maxSize;
 
     }
 

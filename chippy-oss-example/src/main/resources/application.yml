@@ -1,0 +1,16 @@
+oss:
+  client:
+    ali:
+      endpoint: 1
+      access-id: 2
+      access-key: 3
+  predicate:
+    max-file-size: 1048576
+    type:
+      - {"type":"jpg", "maxSize": 1048576}
+      - {"type":"png"}
+      - {"type":"16pic"}
+spring:
+  servlet:
+    multipart:
+      max-file-size: 100MB

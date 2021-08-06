@@ -1,18 +1,15 @@
 package com.chippy.oss.client;
 
 import com.aliyun.oss.ClientException;
-import com.aliyun.oss.OSSClient;
+import com.aliyun.oss.OSS;
 import com.aliyun.oss.model.ObjectMetadata;
-import com.chippy.oss.common.OssClientType;
+import com.chippy.oss.configuration.client.AliClientProperties;
 import com.chippy.oss.context.OssRequestContext;
 import com.chippy.oss.context.UploadResult;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * 阿里云文件上传客户端
@@ -27,12 +24,20 @@ public class AliClient implements OssClient {
     public static final String INLINE_FILENAME = "inline;filename=%s";
     public static final String IO_EXCEPTION = "上传文件时IO异常-[fileName:%s]";
     public static final String HTTP_PRE = "http://";
+    public static final String CLIENT_NAME = "ALI";
 
-    @Resource
-    private OSSClient client;
-
-    @Resource
+    private OSS client;
     private AliClientProperties aliClientProperties;
+
+    public AliClient(OSS client, AliClientProperties aliClientProperties) {
+        this.client = client;
+        this.aliClientProperties = aliClientProperties;
+    }
+
+    @Override
+    public String getClientName() {
+        return CLIENT_NAME;
+    }
 
     @Override
     public UploadResult upload(OssRequestContext ossRequestContext) {
@@ -55,11 +60,6 @@ public class AliClient implements OssClient {
         } catch (IOException e) {
             throw new ClientException(String.format(IO_EXCEPTION, fileName), e);
         }
-    }
-
-    @Override
-    public List<String> getSupportTypeList() {
-        return Collections.singletonList(OssClientType.ALI.name());
     }
 
 }

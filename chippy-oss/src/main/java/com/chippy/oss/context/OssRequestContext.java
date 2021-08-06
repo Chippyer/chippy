@@ -18,14 +18,6 @@ public interface OssRequestContext {
     String getClientName();
 
     /**
-     * 客户端类型
-     *
-     * @return 客户端名称
-     * @author chippy
-     */
-    String getClientType();
-
-    /**
      * 文件名称
      *
      * @return 文件名称
@@ -55,7 +47,7 @@ public interface OssRequestContext {
      * @return 客户端名称
      * @author chippy
      */
-    Integer getFileSize();
+    Long getFileSize();
 
     /**
      * 文件类型
