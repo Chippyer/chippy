@@ -1,7 +1,9 @@
 package com.chippy.oss.context;
 
+import com.chippy.common.utils.ObjectsUtil;
 import com.chippy.oss.client.OssClient;
 import com.chippy.oss.common.UploadType;
+import com.chippy.oss.exception.OssClientException;
 import com.chippy.oss.predicate.OssPredicateHandler;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,6 +15,8 @@ import java.io.IOException;
  * @author: chippy
  */
 public class GenericOssClientTemplate implements OssClientTemplate {
+
+    private static final String OSS_CLIENT_IS_EMPTY = "未获取到上传客户端";
 
     private OssPredicateHandler ossPredicateHandler;
     private OssClientContext ossClientContext;
@@ -61,7 +65,11 @@ public class GenericOssClientTemplate implements OssClientTemplate {
     }
 
     private OssClient getOssClient(String clientName) {
-        return ossClientContext.getOssClient(clientName);
+        final OssClient ossClient = ossClientContext.getOssClient(clientName);
+        if (ObjectsUtil.isEmpty(ossClient)) {
+            throw new OssClientException(OSS_CLIENT_IS_EMPTY);
+        }
+        return ossClient;
     }
 
 }
