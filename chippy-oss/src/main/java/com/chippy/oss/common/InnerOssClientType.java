@@ -5,7 +5,7 @@ package com.chippy.oss.common;
  *
  * @author: chippy
  */
-public enum OssClientType {
+public enum InnerOssClientType {
 
     ALI;
 

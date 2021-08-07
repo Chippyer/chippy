@@ -3,6 +3,7 @@ package com.chippy.oss.client;
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.model.ObjectMetadata;
+import com.chippy.oss.common.InnerOssClientType;
 import com.chippy.oss.common.UploadType;
 import com.chippy.oss.configuration.client.AliClientProperties;
 import com.chippy.oss.context.OssRequestContext;
@@ -26,7 +27,6 @@ public class AliClient implements OssClient {
     private static final String IO_EXCEPTION = "上传文件时IO异常-[fileName:%s]";
     private static final String HTTP_PRE = "http://";
     private static final String HTTPS_PRE = "https://";
-    private static final String DEFAULT_CLIENT_NAME = "ALI";
 
     private OSS client;
     private AliClientProperties aliClientProperties;
@@ -38,7 +38,7 @@ public class AliClient implements OssClient {
 
     @Override
     public String getClientName() {
-        return DEFAULT_CLIENT_NAME;
+        return InnerOssClientType.ALI.name();
     }
 
     @Override
