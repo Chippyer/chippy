@@ -1,6 +1,5 @@
 package com.chippy.oss.configuration.predicate;
 
-import com.chippy.oss.configuration.client.OssClientContext;
 import com.chippy.oss.predicate.FileSizePredicate;
 import com.chippy.oss.predicate.FileTypePredicate;
 import com.chippy.oss.predicate.OssPredicate;
@@ -23,11 +22,6 @@ public class OssPredicateAutoConfiguration {
 
     @Resource
     private OssPredicateProperties ossPredicateProperties;
-
-    @Bean
-    public OssClientContext ossClientContext() {
-        return new OssClientContext();
-    }
 
     @Bean
     public FileSizePredicate fileSizePredicate() {

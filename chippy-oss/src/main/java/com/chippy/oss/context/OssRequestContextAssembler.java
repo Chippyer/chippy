@@ -1,5 +1,6 @@
 package com.chippy.oss.context;
 
+import com.chippy.oss.common.UploadType;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -18,6 +19,7 @@ public interface OssRequestContextAssembler {
      * @return oss请求上下文
      * @author chippy
      */
-    OssRequestContext assembler(MultipartFile multipartFile) throws IOException;
+    OssRequestContext assembler(MultipartFile multipartFile, String defaultClientName, String level, String fileDir,
+        UploadType uploadType) throws IOException;
 
 }

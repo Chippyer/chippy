@@ -1,4 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.chippy.oss.configuration.core.OssContextAutoConfiguration,\
 com.chippy.oss.configuration.predicate.OssPredicateAutoConfiguration,\
-com.chippy.oss.configuration.client.OssClientAutoConfiguration,\
-com.chippy.oss.configuration.core.OssContextAutoConfiguration
+com.chippy.oss.configuration.client.OssClientAutoConfiguration

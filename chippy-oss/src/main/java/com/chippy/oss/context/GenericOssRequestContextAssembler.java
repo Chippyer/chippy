@@ -18,30 +18,19 @@ public class GenericOssRequestContextAssembler implements OssRequestContextAssem
 
     private static final String PARSE_IO_EXCEPTION = "解析文件流异常-[{}]";
     private static final String UPLOAD_FILE_IS_EMPTY = "上传文件参数为空";
-    private String defaultClientName;
-    private String defaultLevel;
-    private String defaultFileDir;
-    private UploadType defaultUploadType;
-
-    public GenericOssRequestContextAssembler(String defaultClientName, String defaultLevel, String defaultFileDir,
-        UploadType defaultUploadType) {
-        this.defaultClientName = defaultClientName;
-        this.defaultLevel = defaultLevel;
-        this.defaultFileDir = defaultFileDir;
-        this.defaultUploadType = defaultUploadType;
-    }
 
     @Override
-    public OssRequestContext assembler(MultipartFile multipartFile) throws IOException {
+    public OssRequestContext assembler(MultipartFile multipartFile, String defaultClientName, String level,
+        String fileDir, UploadType uploadType) throws IOException {
         if (ObjectsUtil.isEmpty(multipartFile)) {
             throw new IllegalArgumentException(UPLOAD_FILE_IS_EMPTY);
         }
 
         final OssRequestContext ossRequestContext = new GenericOssRequestContext();
         ossRequestContext.setClientName(defaultClientName);
-        ossRequestContext.setLevel(defaultLevel);
-        ossRequestContext.setFileDir(defaultFileDir);
-        ossRequestContext.setUploadType(defaultUploadType);
+        ossRequestContext.setLevel(level);
+        ossRequestContext.setFileDir(fileDir);
+        ossRequestContext.setUploadType(uploadType);
 
         InputStream inputStream;
         try {
@@ -57,7 +46,7 @@ public class GenericOssRequestContextAssembler implements OssRequestContextAssem
         ossRequestContext.setFileSize(multipartFile.getSize());
         ossRequestContext.setFileStream(inputStream);
         ossRequestContext.setFileType(this.getFileType(originalFilename));
-        return null;
+        return ossRequestContext;
     }
 
     private String getFileType(String originalFileName) {

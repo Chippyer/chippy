@@ -3,6 +3,7 @@ package com.chippy.oss.configuration.client;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.chippy.oss.client.AliClient;
+import com.chippy.oss.context.OssClientContext;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,30 +1,24 @@
 package com.chippy.oss.context;
 
-import com.chippy.oss.client.OssClient;
-import com.chippy.oss.configuration.client.OssClientContext;
-import com.chippy.oss.predicate.OssPredicateHandler;
+import com.chippy.oss.common.UploadType;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
+import java.io.IOException;
 
 /**
- * 上传客户端模板
+ * oss客户端模板
  *
  * @author: chippy
- */
-public class OssClientTemplate {
+ **/
+public interface OssClientTemplate {
 
-    @Resource
-    private OssPredicateHandler ossPredicateHandler;
+    UploadResult upload(MultipartFile file, String clientName, String level) throws IOException;
 
-    @Resource
-    private OssClientContext ossClientContext;
+    UploadResult upload(MultipartFile file, String clientName, String level, String fileDir) throws IOException;
 
-    public UploadResult upload(OssRequestContext ossRequestContext) {
-        ossPredicateHandler.preHandler(ossRequestContext);
-        final OssClient ossClient = ossClientContext.getOssClient(ossRequestContext.getClientName());
-        final UploadResult uploadResult = ossClient.upload(ossRequestContext);
-        ossPredicateHandler.postHandler(ossRequestContext, uploadResult);
-        return uploadResult;
-    }
+    UploadResult upload(MultipartFile file, String clientName, String level, UploadType uploadType) throws IOException;
+
+    UploadResult upload(MultipartFile file, String clientName, String level, String fileDir, UploadType uploadType)
+        throws IOException;
 
 }

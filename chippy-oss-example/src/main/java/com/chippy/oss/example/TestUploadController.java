@@ -1,8 +1,6 @@
 package com.chippy.oss.example;
 
-import com.chippy.oss.context.GenericOssRequestContextAssembler;
-import com.chippy.oss.context.OssClientTemplate;
-import com.chippy.oss.context.OssRequestContext;
+import com.chippy.oss.context.GenericOssClientTemplate;
 import com.chippy.oss.context.UploadResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,20 +19,16 @@ import java.io.IOException;
 public class TestUploadController {
 
     @Resource
-    private GenericOssRequestContextAssembler genericRequestContextAssembler;
-
-    @Resource
-    private OssClientTemplate ossClientTemplate;
+    private GenericOssClientTemplate ossClientTemplate;
 
     @PostMapping("")
     public String testUpload(@RequestParam(value = "file") MultipartFile file) {
-        final OssRequestContext ossRequestContext;
+        final UploadResult uploadResult;
         try {
-            ossRequestContext = genericRequestContextAssembler.assembler(file);
+            uploadResult = ossClientTemplate.upload(file, "ALI", "quanyu-jingqiu");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        final UploadResult uploadResult = ossClientTemplate.upload(ossRequestContext);
         return uploadResult.getUrl();
     }
 

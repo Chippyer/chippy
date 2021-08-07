@@ -1,4 +1,4 @@
-package com.chippy.oss.configuration.client;
+package com.chippy.oss.context;
 
 import com.chippy.oss.client.OssClient;
 
