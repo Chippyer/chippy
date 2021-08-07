@@ -19,12 +19,13 @@ import java.io.InputStream;
 @Slf4j
 public class AliClient implements OssClient {
 
-    public static final String NO_CACHE = "no-cache";
-    public static final String PRAGMA = "Pragma";
-    public static final String INLINE_FILENAME = "inline;filename=%s";
-    public static final String IO_EXCEPTION = "上传文件时IO异常-[fileName:%s]";
-    public static final String HTTP_PRE = "http://";
-    public static final String CLIENT_NAME = "ALI";
+    private static final String NO_CACHE = "no-cache";
+    private static final String PRAGMA = "Pragma";
+    private static final String INLINE_FILENAME = "inline;filename=%s";
+    private static final String IO_EXCEPTION = "上传文件时IO异常-[fileName:%s]";
+    private static final String HTTP_PRE = "http://";
+    private static final String HTTPS_PRE = "https://";
+    private static final String CLIENT_NAME = "ALI";
 
     private OSS client;
     private AliClientProperties aliClientProperties;
@@ -41,7 +42,7 @@ public class AliClient implements OssClient {
 
     @Override
     public UploadResult upload(OssRequestContext ossRequestContext) {
-        final String bucketName = ossRequestContext.getLevelName();
+        final String bucketName = ossRequestContext.getLevel();
         final String fileName = ossRequestContext.getFileName();
         final String fileDir = ossRequestContext.getFileDir();
         final String uploadName = fileDir + fileName;
@@ -55,11 +56,16 @@ public class AliClient implements OssClient {
             client.putObject(bucketName, uploadName, fileStream, objectMetadata);
 
             final String url =
-                HTTP_PRE + bucketName + '.' + aliClientProperties.getEndpoint() + '/' + fileDir + uploadName;
+                HTTPS_PRE + bucketName + '.' + aliClientProperties.getEndpoint() + '/' + fileDir + uploadName;
             return new UploadResult(url);
         } catch (IOException e) {
             throw new ClientException(String.format(IO_EXCEPTION, fileName), e);
         }
+    }
+
+    @Override
+    public void destroy() {
+        this.client.shutdown();
     }
 
 }
