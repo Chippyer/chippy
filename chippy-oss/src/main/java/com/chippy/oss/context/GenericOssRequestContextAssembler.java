@@ -46,6 +46,7 @@ public class GenericOssRequestContextAssembler implements OssRequestContextAssem
         ossRequestContext.setFileSize(multipartFile.getSize());
         ossRequestContext.setFileStream(inputStream);
         ossRequestContext.setFileType(this.getFileType(originalFilename));
+        ossRequestContext.setFileBytes(multipartFile.getBytes());
         return ossRequestContext;
     }
 

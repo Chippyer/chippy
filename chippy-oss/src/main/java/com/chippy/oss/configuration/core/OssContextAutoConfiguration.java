@@ -2,7 +2,7 @@ package com.chippy.oss.configuration.core;
 
 import com.chippy.oss.context.*;
 import com.chippy.oss.predicate.OssPredicate;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,9 +19,10 @@ import java.util.List;
 public class OssContextAutoConfiguration {
 
     @Bean
-    public GenericOssClientTemplate genericOssClientTemplate(List<OssHandler> ossHandlerList,
+    public GenericOssClientTemplate genericOssClientTemplate(List<OssHandler> ossHandlerList, OssSnapshot ossSnapshot,
         OssClientContext ossClientContext, GenericOssRequestContextAssembler genericOssRequestContextAssembler) {
-        return new GenericOssClientTemplate(ossHandlerList, ossClientContext, genericOssRequestContextAssembler);
+        return new GenericOssClientTemplate(ossHandlerList, ossSnapshot, ossClientContext,
+            genericOssRequestContextAssembler);
     }
 
     @Bean
@@ -44,10 +45,15 @@ public class OssContextAutoConfiguration {
         return new OssPredicateHandler(ossPredicateList);
     }
 
-    @ConditionalOnProperty(prefix = "oss.snapshot", name = "enable", havingValue = "true", matchIfMissing = true)
+    @ConditionalOnMissingBean
     @Bean
-    public OssSnapshotHandler ossSnapshotHandler(OssSnapshotProperties ossSnapshotProperties) {
-        return new OssSnapshotHandler(ossSnapshotProperties);
+    public OssSnapshot ossSnapshot(OssSnapshotProperties ossSnapshotProperties) {
+        return new OssLruSnapshot(ossSnapshotProperties);
+    }
+
+    @Bean
+    public OssSnapshotHandler ossSnapshotHandler(OssSnapshot ossSnapshot) {
+        return new OssSnapshotHandler(ossSnapshot);
     }
 
 }

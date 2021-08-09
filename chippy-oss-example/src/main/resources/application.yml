@@ -1,4 +1,6 @@
 oss:
+  snapshot:
+    max-size: 1024
   client:
     ali:
       endpoint: 1
@@ -7,10 +9,13 @@ oss:
   predicate:
     max-file-size: 1048576
     type:
-      - {"type":"jpg", "maxSize": 1048576}
+      - {"type":"jpg"}
       - {"type":"png"}
       - {"type":"16pic"}
 spring:
   servlet:
     multipart:
       max-file-size: 100MB
+logging:
+  level:
+    com.chippy: debug

@@ -18,13 +18,15 @@ public class GenericOssClientTemplate implements OssClientTemplate {
 
     private static final String OSS_CLIENT_IS_EMPTY = "未获取到上传客户端";
 
+    private OssSnapshot ossSnapshot;
     private List<OssHandler> ossHandlerList;
     private OssClientContext ossClientContext;
     private GenericOssRequestContextAssembler genericOssRequestContextAssembler;
 
-    public GenericOssClientTemplate(List<OssHandler> ossHandlerList, OssClientContext ossClientContext,
-        GenericOssRequestContextAssembler genericOssRequestContextAssembler) {
+    public GenericOssClientTemplate(List<OssHandler> ossHandlerList, OssSnapshot ossSnapshot,
+        OssClientContext ossClientContext, GenericOssRequestContextAssembler genericOssRequestContextAssembler) {
         this.ossHandlerList = ossHandlerList;
+        this.ossSnapshot = ossSnapshot;
         this.ossClientContext = ossClientContext;
         this.genericOssRequestContextAssembler = genericOssRequestContextAssembler;
     }
@@ -70,20 +72,7 @@ public class GenericOssClientTemplate implements OssClientTemplate {
     }
 
     private SnapshotUploadResult getSnapshotUploadResult(byte[] bytes) {
-        final OssSnapshotHandler ossSnapshotResultHandler = this.getOssSnapshotResultHandler();
-        if (ObjectsUtil.isEmpty(ossSnapshotResultHandler)) {
-            return null;
-        }
-        return ossSnapshotResultHandler.get(bytes);
-    }
-
-    private OssSnapshotHandler getOssSnapshotResultHandler() {
-        for (OssHandler ossHandler : ossHandlerList) {
-            if (ossHandler instanceof OssSnapshotHandler) {
-                return (OssSnapshotHandler)ossHandler;
-            }
-        }
-        return null;
+        return ossSnapshot.get(bytes);
     }
 
     private void doPreHandler(OssRequestContext ossRequestContext) {
