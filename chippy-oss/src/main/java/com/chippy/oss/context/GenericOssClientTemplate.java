@@ -4,10 +4,10 @@ import com.chippy.common.utils.ObjectsUtil;
 import com.chippy.oss.client.OssClient;
 import com.chippy.oss.common.UploadType;
 import com.chippy.oss.exception.OssClientException;
-import com.chippy.oss.predicate.OssPredicateHandler;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * 上传客户端模板
@@ -18,13 +18,13 @@ public class GenericOssClientTemplate implements OssClientTemplate {
 
     private static final String OSS_CLIENT_IS_EMPTY = "未获取到上传客户端";
 
-    private OssPredicateHandler ossPredicateHandler;
+    private List<OssHandler> ossHandlerList;
     private OssClientContext ossClientContext;
     private GenericOssRequestContextAssembler genericOssRequestContextAssembler;
 
-    public GenericOssClientTemplate(OssPredicateHandler ossPredicateHandler, OssClientContext ossClientContext,
+    public GenericOssClientTemplate(List<OssHandler> ossHandlerList, OssClientContext ossClientContext,
         GenericOssRequestContextAssembler genericOssRequestContextAssembler) {
-        this.ossPredicateHandler = ossPredicateHandler;
+        this.ossHandlerList = ossHandlerList;
         this.ossClientContext = ossClientContext;
         this.genericOssRequestContextAssembler = genericOssRequestContextAssembler;
     }
@@ -57,11 +57,45 @@ public class GenericOssClientTemplate implements OssClientTemplate {
     }
 
     private UploadResult upload(OssRequestContext ossRequestContext) {
-        ossPredicateHandler.preHandler(ossRequestContext);
+        final SnapshotUploadResult snapshotUploadResult =
+            this.getSnapshotUploadResult(ossRequestContext.getFileBytes());
+        if (ObjectsUtil.isNotEmpty(snapshotUploadResult)) {
+            return new UploadResult(snapshotUploadResult.getUrl());
+        }
+        this.doPreHandler(ossRequestContext);
         final OssClient ossClient = this.getOssClient(ossRequestContext.getClientName());
         final UploadResult uploadResult = ossClient.upload(ossRequestContext);
-        ossPredicateHandler.postHandler(ossRequestContext, uploadResult);
+        this.doAfterHandler(ossRequestContext, uploadResult);
         return uploadResult;
+    }
+
+    private SnapshotUploadResult getSnapshotUploadResult(byte[] bytes) {
+        final OssSnapshotHandler ossSnapshotResultHandler = this.getOssSnapshotResultHandler();
+        if (ObjectsUtil.isEmpty(ossSnapshotResultHandler)) {
+            return null;
+        }
+        return ossSnapshotResultHandler.get(bytes);
+    }
+
+    private OssSnapshotHandler getOssSnapshotResultHandler() {
+        for (OssHandler ossHandler : ossHandlerList) {
+            if (ossHandler instanceof OssSnapshotHandler) {
+                return (OssSnapshotHandler)ossHandler;
+            }
+        }
+        return null;
+    }
+
+    private void doPreHandler(OssRequestContext ossRequestContext) {
+        for (OssHandler ossHandler : ossHandlerList) {
+            ossHandler.preHandler(ossRequestContext);
+        }
+    }
+
+    private void doAfterHandler(OssRequestContext ossRequestContext, UploadResult uploadResult) {
+        for (OssHandler ossHandler : ossHandlerList) {
+            ossHandler.postHandler(ossRequestContext, uploadResult);
+        }
     }
 
     private OssClient getOssClient(String clientName) {

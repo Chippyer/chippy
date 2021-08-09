@@ -139,4 +139,20 @@ public interface OssRequestContext {
      */
     void setFileStream(InputStream inputStream);
 
+    /**
+     * 获取文件字节信息
+     *
+     * @return 文件字节信息
+     * @author chippy
+     */
+    byte[] getFileBytes();
+
+    /**
+     * 设置文件字节信息
+     *
+     * @param bytes 文件字节信息
+     * @author chippy
+     */
+    void setFileBytes(byte[] bytes);
+
 }
