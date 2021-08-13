@@ -53,4 +53,9 @@ public class GenericOssRequestContext implements OssRequestContext {
      */
     private InputStream fileStream;
 
+    /**
+     * 文件字节信息
+     */
+    private byte[] fileBytes;
+
 }

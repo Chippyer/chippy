@@ -1,9 +1,8 @@
-package com.chippy.oss.predicate;
+package com.chippy.oss.context;
 
 import com.chippy.common.utils.ObjectsUtil;
-import com.chippy.oss.context.OssRequestContext;
-import com.chippy.oss.context.UploadResult;
 import com.chippy.oss.exception.OssPredicateException;
+import com.chippy.oss.predicate.OssPredicate;
 
 import java.util.List;
 
@@ -12,7 +11,7 @@ import java.util.List;
  *
  * @author: chippy
  **/
-public class OssPredicateHandler {
+public class OssPredicateHandler implements OssHandler {
 
     private List<OssPredicate> ossPredicateList;
 
@@ -20,6 +19,7 @@ public class OssPredicateHandler {
         this.ossPredicateList = ossPredicateList;
     }
 
+    @Override
     public void preHandler(OssRequestContext ossRequestContext) {
         if (ObjectsUtil.isEmpty(ossPredicateList)) {
             return;
@@ -29,9 +29,6 @@ public class OssPredicateHandler {
                 throw new OssPredicateException(ossPredicate.getErrorMsg());
             }
         }
-    }
-
-    public void postHandler(OssRequestContext ossRequestContext, UploadResult uploadResult) {
     }
 
 }

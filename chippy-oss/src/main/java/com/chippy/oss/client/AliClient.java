@@ -68,6 +68,9 @@ public class AliClient implements OssClient {
 
             final String url =
                 HTTPS_PRE + bucketName + '.' + aliClientProperties.getEndpoint() + '/' + fileDir + uploadName;
+            if (log.isDebugEnabled()) {
+                log.debug(this.getClientName() + "-上传文件结果-[{}]", url);
+            }
             return new UploadResult(url);
         } catch (IOException e) {
             throw new ClientException(String.format(IO_EXCEPTION, fileName), e);
