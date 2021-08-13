@@ -10,6 +10,7 @@
         <module>chippy-log</module>
         <module>chippy-spring</module>
         <module>chippy-oss</module>
+        <module>chippy-redis</module>
         <!--<module>chippy-oss-example</module>-->
     </modules>
 
