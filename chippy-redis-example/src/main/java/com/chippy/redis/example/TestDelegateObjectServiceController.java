@@ -1,7 +1,7 @@
 package com.chippy.redis.example;
 
 import cn.hutool.json.JSONUtil;
-import com.chippy.redis.enhance.RedisTemplateEnhanceObjectService;
+import com.chippy.redis.enhance.RedissonEnhanceObjectService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +19,7 @@ import java.util.HashMap;
 public class TestDelegateObjectServiceController {
 
     @Resource
-    private RedisTemplateEnhanceObjectService redisDelegateObjectService;
+    private RedissonEnhanceObjectService redissonEnhanceObjectService;
 
     @GetMapping("/lo/set")
     public String setLoSet(String id, String name) {
@@ -34,13 +34,13 @@ public class TestDelegateObjectServiceController {
         final TestBean.TestObject testObject = new TestBean.TestObject();
         testObject.setName("object name");
         t.setTestObject(testObject);
-        redisDelegateObjectService.enhance(t);
+        redissonEnhanceObjectService.enhance(t);
         return "SUCCESS";
     }
 
     @GetMapping("/lo/update")
     public String updateLoGet(String id, String name) {
-        final TestBean testBean = redisDelegateObjectService.get(id, TestBean.class);
+        final TestBean testBean = redissonEnhanceObjectService.get(id, TestBean.class);
         testBean.setName(name);
 
         final HashMap beanMap = new HashMap();
@@ -52,7 +52,7 @@ public class TestDelegateObjectServiceController {
 
     @GetMapping("/lo/get")
     public String getLoGet(String id) {
-        final TestBean testBean = redisDelegateObjectService.get(id, TestBean.class);
+        final TestBean testBean = redissonEnhanceObjectService.get(id, TestBean.class);
         return JSONUtil.toJsonStr(testBean);
     }
 

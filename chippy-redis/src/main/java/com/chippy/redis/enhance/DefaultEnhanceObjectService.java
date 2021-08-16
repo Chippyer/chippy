@@ -5,17 +5,31 @@ import cn.hutool.core.util.ReflectUtil;
 import com.chippy.common.utils.ObjectsUtil;
 import com.chippy.redis.utils.EnhanceJSONUtil;
 import com.chippy.redis.utils.EnhancerUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cglib.proxy.MethodInterceptor;
 
 import java.lang.reflect.Field;
 import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * 默认增强对象管理操作实现
+ * 默认实现单机锁{@link ReentrantReadWriteLock}
  *
  * @author: chippy
  **/
-public abstract class DefaultEnhanceObjectService implements EnhanceObjectService {
+@Slf4j
+public abstract class DefaultEnhanceObjectService implements EnhanceObjectService, ELock {
+
+    private EnhanceObjectManager enhanceObjectManager;
+
+    public DefaultEnhanceObjectService(EnhanceObjectManager enhanceObjectManager) {
+        this.enhanceObjectManager = enhanceObjectManager;
+    }
 
     @Override
     public void enhance(EnhanceObject sourceObject) {
@@ -47,39 +61,89 @@ public abstract class DefaultEnhanceObjectService implements EnhanceObjectServic
     private <T> T doCreateProxy(T sourceObject) {
         return EnhancerUtil.createProxy(sourceObject, (MethodInterceptor)(obj, method, args, proxy) -> {
             final String methodName = method.getName();
-            final EnhanceObject delegateObject = (EnhanceObject)obj;
+            final EnhanceObject enhanceObject = (EnhanceObject)obj;
+            final String fullClassName = sourceObject.getClass().getName();
+            // fieldName = setA -> a;
+            final String fieldName = EnhancerUtil.lowerFirstCase(methodName.substring(EnhancerUtil.SET.length()));
+
             if (methodName.startsWith(EnhancerUtil.SET) && ObjectUtil.isNotEmpty(args)) {
-                final String finalMethodName =
-                    EnhancerUtil.lowerFirstCase(methodName.substring(EnhancerUtil.SET.length()));
-                this.doSetField(delegateObject.getId(), finalMethodName, EnhanceJSONUtil.toJsonStr(args[0]));
+                this.enhanceSet(enhanceObject, fullClassName, fieldName, args[0]);
                 return method.invoke(sourceObject, args);
             } else if (methodName.startsWith(EnhancerUtil.GET)) {
-                // ignore
+                this.enhanceGet(enhanceObject, fullClassName, fieldName);
                 return method.invoke(sourceObject, args);
             } else {
-                // ignore
+                // 忽略非get set行为
                 return method.invoke(sourceObject, args);
             }
         });
     }
 
-    /**
-     * 设置属性
-     *
-     * @param id         增强对象唯一标识
-     * @param fieldName  属性名称
-     * @param fieldValue 属性值
-     * @author chippy
-     */
+    private void enhanceSet(EnhanceObject enhanceObject, String fullClassName, String fieldName, Object value) {
+        final EnhanceObjectField enhanceObjectFiled =
+            enhanceObjectManager.getEnhanceObjectFiled(fullClassName, fieldName);
+        if (Objects.nonNull(enhanceObjectFiled) && enhanceObjectFiled.getIsLock()) {
+            Lock writeLock = null;
+            try {
+                writeLock = this.getReadWriteLock(this.getLockKey(fullClassName, enhanceObjectFiled)).writeLock();
+                final boolean isHolderWriteLock =
+                    writeLock.tryLock(enhanceObjectFiled.getWaitLockTime(), TimeUnit.MILLISECONDS);
+                if (!isHolderWriteLock) {
+                    log.error("获取[class:{}, field:{}]写锁失败", fullClassName, fieldName);
+                }
+                this.doSet(enhanceObject, fieldName, value);
+            } catch (Exception ignore) {
+                // 忽略任何异常信息
+            } finally {
+                if (Objects.nonNull(writeLock)) {
+                    writeLock.unlock();
+                }
+            }
+        } else {
+            this.doSet(enhanceObject, fieldName, value);
+        }
+    }
+
+    private void enhanceGet(EnhanceObject enhanceObject, String fullClassName, String fieldName) {
+        final EnhanceObjectField enhanceObjectFiled =
+            enhanceObjectManager.getEnhanceObjectFiled(fullClassName, fieldName);
+        if (Objects.nonNull(enhanceObjectFiled) && enhanceObjectFiled.getIsLock()) {
+            Lock readLock = null;
+            try {
+                readLock = this.getReadWriteLock(this.getLockKey(fullClassName, enhanceObjectFiled)).readLock();
+                final boolean isHolderReadLock =
+                    readLock.tryLock(enhanceObjectFiled.getWaitLockTime(), TimeUnit.MILLISECONDS);
+                if (!isHolderReadLock) {
+                    log.error("获取[class:{}, field:{}]读锁失败", fullClassName, enhanceObjectFiled.getField().getName());
+                }
+                this.doGet(enhanceObject, fieldName);
+            } catch (Exception e) {
+                // 忽略任何异常信息
+            } finally {
+                if (Objects.nonNull(readLock)) {
+                    readLock.unlock();
+                }
+            }
+        } else {
+            this.doGet(enhanceObject, fieldName);
+        }
+    }
+
+    private void doSet(EnhanceObject enhanceObject, String fieldName, Object arg) {
+        this.doSetField(enhanceObject.getId(), fieldName, EnhanceJSONUtil.toJsonStr(arg));
+    }
+
+    private void doGet(EnhanceObject enhanceObject, String fieldName) {
+        // 暂时不做任何事情
+    }
+
+    @Override
+    public ReadWriteLock getReadWriteLock(String lockKey) {
+        return new ReentrantReadWriteLock();
+    }
+
     protected abstract void doSetField(String id, String fieldName, String fieldValue);
 
-    /**
-     * 获取属性
-     *
-     * @param id 增强对象唯一标识
-     * @return 增强对象所有属性值
-     * @author chippy
-     */
     protected abstract Map<String, String> doGetField(String id);
 
     private void validateEnhanceParam(EnhanceObject sourceObject) {
@@ -98,6 +162,10 @@ public abstract class DefaultEnhanceObjectService implements EnhanceObjectServic
         if (ObjectsUtil.isEmpty(sourceObjectClass)) {
             throw new IllegalArgumentException("增强对象类型不能为空");
         }
+    }
+
+    private String getLockKey(String fullClassName, EnhanceObjectField enhanceObjectFiled) {
+        return fullClassName + enhanceObjectFiled.getField().getName();
     }
 
 }

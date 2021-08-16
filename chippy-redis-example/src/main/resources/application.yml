@@ -6,3 +6,8 @@ logging:
       config: classpath:redisson-dev.yml
 server:
   port: 8081
+
+enhance-object:
+  scanner-package:
+    - com.chippy.redis.example
+  enhance-object-capacity: 16
