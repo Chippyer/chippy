@@ -17,6 +17,8 @@ public class TestBean implements EnhanceObject {
     @FieldLock
     private String name;
 
+    private String address;
+
     @FieldLock
     private Integer age;
 

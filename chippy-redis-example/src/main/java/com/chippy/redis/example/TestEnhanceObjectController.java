@@ -1,5 +1,6 @@
 package com.chippy.redis.example;
 
+import com.chippy.common.utils.UUIDUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,7 @@ public class TestEnhanceObjectController {
         final TestBean t = new TestBean();
         t.setId(id);
         t.setName(name);
+        t.setAddress("测试地址");
         t.setAge(10);
         final HashMap beanMap = new HashMap();
         beanMap.put("1", "1");
@@ -43,34 +45,48 @@ public class TestEnhanceObjectController {
         for (int i = 0; i < size; i++) {
             final Thread t1 = new Thread(() -> {
                 final TestBean testBean = redisTemplateEnhanceObjectService.get(id, TestBean.class);
-                final Integer age = testBean.getAge();
-                log.debug(Thread.currentThread().getName() + "[{}]-before age-[{}]", Thread.currentThread().getName(),
-                    age);
-                testBean.setAge(age + 1);
-                log.debug(Thread.currentThread().getName() + "[{}]-after age-[{}]", Thread.currentThread().getName(),
-                    testBean.getAge());
+                // final Integer age = testBean.getAge();
+                //                System.out.println(String.format(Thread.currentThread().getName() + "start time-[%s]", System.currentTimeMillis()));
+                //                log.debug(Thread.currentThread().getName() + "[{}]-before age-[{}]", Thread.currentThread().getName(),
+                //                    age);
+                // testBean.setAge(age + 1);
+
+                //                final String s = UUIDUtil.generateUuid();
+                //                System.out.println(s);
+                //                testBean.setName(s);
+
+                testBean.setAddress(UUIDUtil.generateUuid());
             });
             t1.setName("t1");
+            t1.setPriority(1);
             final Thread t2 = new Thread(() -> {
                 final TestBean testBean = redisTemplateEnhanceObjectService.get(id, TestBean.class);
-                final Integer age = testBean.getAge();
-                log.debug(Thread.currentThread().getName() + "[{}]-before age-[{}]", Thread.currentThread().getName(),
-                    age);
-                testBean.setAge(age + 1);
-                log.debug(Thread.currentThread().getName() + "[{}]-after age-[{}]", Thread.currentThread().getName(),
-                    testBean.getAge());
+                //                final Integer age = testBean.getAge();
+                //                System.out.println(String.format(Thread.currentThread().getName() + "start time-[%s]", System.currentTimeMillis()));
+                //                log.debug(Thread.currentThread().getName() + "[{}]-before age-[{}]", Thread.currentThread().getName(),
+                //                    age);
+                //                testBean.setAge(age + 1);
+
+                //                testBean.setName(UUIDUtil.generateUuid());
+
+                testBean.setAddress(UUIDUtil.generateUuid());
             });
             t2.setName("t2");
+            t2.setPriority(3);
             final Thread t3 = new Thread(() -> {
                 final TestBean testBean = redisTemplateEnhanceObjectService.get(id, TestBean.class);
-                final Integer age = testBean.getAge();
-                log.debug(Thread.currentThread().getName() + "[{}]-before age-[{}]", Thread.currentThread().getName(),
-                    age);
-                testBean.setAge(age + 1);
-                log.debug(Thread.currentThread().getName() + "[{}]-after age-[{}]", Thread.currentThread().getName(),
-                    testBean.getAge());
+                //                final Integer age = testBean.getAge();
+                //                System.out.println(String.format(Thread.currentThread().getName() + "start time-[%s]", System.currentTimeMillis()));
+                //                log.debug(Thread.currentThread().getName() + "[{}]-before age-[{}]", Thread.currentThread().getName(),
+                //                    age);
+                //                testBean.setAge(age + 1);
+
+                //                testBean.setName(UUIDUtil.generateUuid());
+
+                testBean.setAddress(UUIDUtil.generateUuid());
             });
             t3.setName("t3");
+            t3.setPriority(7);
 
             t1.start();
             t2.start();

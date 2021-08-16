@@ -23,12 +23,12 @@ public class RedissonEnhanceObjectService extends DefaultEnhanceObjectService {
     }
 
     @Override
-    protected void doSetField(String id, String fieldName, String fieldValue) {
+    protected void setField(String id, String fieldName, String fieldValue) {
         redissonClient.getMap(id).put(fieldName, fieldValue);
     }
 
     @Override
-    protected Map<String, String> doGetField(String id) {
+    protected Map<String, String> getField(String id) {
         final RMap<Object, Object> entries = redissonClient.getMap(id);
         final Map<String, String> fieldMap = new HashMap<>(entries.size());
         entries.forEach((fieldName, fieldValue) -> fieldMap.put(String.valueOf(fieldName), String.valueOf(fieldValue)));
@@ -41,8 +41,8 @@ public class RedissonEnhanceObjectService extends DefaultEnhanceObjectService {
     }
 
     @Override
-    protected void doIncreaseField(String id, String fieldName) {
-        redissonClient.getMap(id).addAndGet(fieldName, 1);
+    protected Object increaseField(String id, String fieldName) {
+        return redissonClient.getMap(id).addAndGet(fieldName, 1);
     }
 
 }

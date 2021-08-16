@@ -32,4 +32,9 @@ public class EnhanceObjectInfo {
      */
     private List<EnhanceObjectField> enhanceObjectFieldList;
 
+    /**
+     * 忽略增强的属性
+     */
+    private List<String> excludeFieldList;
+
 }

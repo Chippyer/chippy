@@ -60,14 +60,15 @@ public class EnhanceObjectLockCollector implements InitializingBean {
             enhanceObjectInfo.setClassName(classType.getSimpleName());
             enhanceObjectInfo.setClassType(classType);
             enhanceObjectInfo.setFullClassName(fullClassName);
-            enhanceObjectInfo.setEnhanceObjectFieldList(this.resolveEnhanceObjectFieldLIst(classType));
+            this.resolveEnhanceObjectField(classType, enhanceObjectInfo);
             enhanceObjectManager.register(fullClassName, enhanceObjectInfo);
         }
     }
 
-    private List<EnhanceObjectField> resolveEnhanceObjectFieldLIst(Class<?> classType) {
+    private void resolveEnhanceObjectField(Class<?> classType, EnhanceObjectInfo enhanceObjectInfo) {
         final Field[] fields = classType.getDeclaredFields();
         final List<EnhanceObjectField> enhanceObjectFieldList = new ArrayList<>(fields.length);
+        final List<String> excludeFieldList = new ArrayList<>(fields.length);
         for (Field field : fields) {
             final FieldLock fieldLock = AnnotationUtil.getAnnotation(field, FieldLock.class);
             if (Objects.nonNull(fieldLock)) {
@@ -77,9 +78,12 @@ public class EnhanceObjectLockCollector implements InitializingBean {
                 enhanceObjectField.setFieldLockType(fieldLock.fieldLockType());
                 enhanceObjectField.setWaitLockTime(fieldLock.waitLockTime());
                 enhanceObjectFieldList.add(enhanceObjectField);
+            } else {
+                excludeFieldList.add(field.getName());
             }
         }
-        return enhanceObjectFieldList;
+        enhanceObjectInfo.setEnhanceObjectFieldList(enhanceObjectFieldList);
+        enhanceObjectInfo.setExcludeFieldList(excludeFieldList);
     }
 
     @Override

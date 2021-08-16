@@ -28,12 +28,12 @@ public class RedisTemplateEnhanceObjectService extends DefaultEnhanceObjectServi
     }
 
     @Override
-    protected void doSetField(String id, String fieldName, String fieldValue) {
+    protected void setField(String id, String fieldName, String fieldValue) {
         redisTemplate.opsForHash().put(id, fieldName, fieldValue);
     }
 
     @Override
-    protected Map<String, String> doGetField(String id) {
+    protected Map<String, String> getField(String id) {
         final Map<Object, Object> entries = redisTemplate.opsForHash().entries(id);
         final Map<String, String> fieldMap = new HashMap<>(entries.size());
         entries.forEach((fieldName, fieldValue) -> fieldMap.put(String.valueOf(fieldName), String.valueOf(fieldValue)));
@@ -46,8 +46,8 @@ public class RedisTemplateEnhanceObjectService extends DefaultEnhanceObjectServi
     }
 
     @Override
-    protected void doIncreaseField(String id, String fieldName) {
-        redisTemplate.opsForHash().increment(id, fieldName, 1);
+    protected Object increaseField(String id, String fieldName) {
+        return redisTemplate.opsForHash().increment(id, fieldName, 1);
     }
 
 }
