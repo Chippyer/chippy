@@ -54,7 +54,7 @@ public class EnhanceObjectLockCollector implements InitializingBean {
     }
 
     private void resolveEnhanceObjectClass(Class<?> classType, Class<?> interfaceClass) {
-        if (Objects.equals(interfaceClass.getName(), EnhanceObject.class.getName())) {
+        if (Objects.equals(interfaceClass, EnhanceObject.class)) {
             final String fullClassName = classType.getName();
             final EnhanceObjectInfo enhanceObjectInfo = new EnhanceObjectInfo();
             enhanceObjectInfo.setClassName(classType.getSimpleName());
