@@ -1,6 +1,6 @@
 package com.chippy.redis.example;
 
-import com.chippy.common.utils.UUIDUtil;
+import com.chippy.redis.enhance.service.EnhanceObjectService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +20,7 @@ import java.util.HashMap;
 public class TestEnhanceObjectController {
 
     @Resource
-    private RedisTemplateEnhanceObjectService redisTemplateEnhanceObjectService;
+    private EnhanceObjectService enhanceObjectService;
 
     @PostMapping("/creation")
     public TestBean creation(String id, String name) {
@@ -36,7 +36,7 @@ public class TestEnhanceObjectController {
         final TestBean.TestObject testObject = new TestBean.TestObject();
         testObject.setName("object name");
         t.setTestObject(testObject);
-        redisTemplateEnhanceObjectService.enhance(t);
+        enhanceObjectService.enhance(t);
         return t;
     }
 
@@ -44,46 +44,49 @@ public class TestEnhanceObjectController {
     public String process(String id, int size) {
         for (int i = 0; i < size; i++) {
             final Thread t1 = new Thread(() -> {
-                final TestBean testBean = redisTemplateEnhanceObjectService.get(id, TestBean.class);
+                final TestBean testBean = enhanceObjectService.get(id, TestBean.class);
                 // final Integer age = testBean.getAge();
                 //                System.out.println(String.format(Thread.currentThread().getName() + "start time-[%s]", System.currentTimeMillis()));
                 //                log.debug(Thread.currentThread().getName() + "[{}]-before age-[{}]", Thread.currentThread().getName(),
                 //                    age);
-                // testBean.setAge(age + 1);
+                //                testBean.setAge(age + 1);
+                testBean.increase("age", 1L);
 
                 //                final String s = UUIDUtil.generateUuid();
                 //                System.out.println(s);
                 //                testBean.setName(s);
 
-                testBean.setAddress(UUIDUtil.generateUuid());
+                //                testBean.setAddress(UUIDUtil.generateUuid());
             });
             t1.setName("t1");
             t1.setPriority(1);
             final Thread t2 = new Thread(() -> {
-                final TestBean testBean = redisTemplateEnhanceObjectService.get(id, TestBean.class);
-                //                final Integer age = testBean.getAge();
+                final TestBean testBean = enhanceObjectService.get(id, TestBean.class);
+                // final Integer age = testBean.getAge();
                 //                System.out.println(String.format(Thread.currentThread().getName() + "start time-[%s]", System.currentTimeMillis()));
                 //                log.debug(Thread.currentThread().getName() + "[{}]-before age-[{}]", Thread.currentThread().getName(),
                 //                    age);
-                //                testBean.setAge(age + 1);
+                // testBean.setAge(age + 1);
+                testBean.increase("age", 2L);
 
                 //                testBean.setName(UUIDUtil.generateUuid());
 
-                testBean.setAddress(UUIDUtil.generateUuid());
+                //                testBean.setAddress(UUIDUtil.generateUuid());
             });
             t2.setName("t2");
             t2.setPriority(3);
             final Thread t3 = new Thread(() -> {
-                final TestBean testBean = redisTemplateEnhanceObjectService.get(id, TestBean.class);
-                //                final Integer age = testBean.getAge();
+                final TestBean testBean = enhanceObjectService.get(id, TestBean.class);
+                // final Integer age = testBean.getAge();
                 //                System.out.println(String.format(Thread.currentThread().getName() + "start time-[%s]", System.currentTimeMillis()));
                 //                log.debug(Thread.currentThread().getName() + "[{}]-before age-[{}]", Thread.currentThread().getName(),
                 //                    age);
-                //                testBean.setAge(age + 1);
+                // testBean.setAge(age + 1);
+                testBean.increase("age", 3L);
 
                 //                testBean.setName(UUIDUtil.generateUuid());
 
-                testBean.setAddress(UUIDUtil.generateUuid());
+                //                testBean.setAddress(UUIDUtil.generateUuid());
             });
             t3.setName("t3");
             t3.setPriority(7);

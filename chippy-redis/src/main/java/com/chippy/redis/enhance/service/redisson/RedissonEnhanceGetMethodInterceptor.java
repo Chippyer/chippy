@@ -1,5 +1,7 @@
-package com.chippy.redis.enhance;
+package com.chippy.redis.enhance.service.redisson;
 
+import com.chippy.redis.enhance.EnhanceObjectManager;
+import com.chippy.redis.enhance.service.EnhanceGetMethodInterceptor;
 import org.redisson.api.RMap;
 import org.redisson.api.RedissonClient;
 
@@ -8,27 +10,27 @@ import java.util.Map;
 import java.util.concurrent.locks.ReadWriteLock;
 
 /**
- * 基于{@link RedissonClient}实现的增强对象操作实现
- * 支持分布式锁
+ * 基于{@link RedissonClient}实现的GET方法增强
  *
  * @author: chippy
  **/
-public class RedissonEnhanceObjectService extends DefaultEnhanceObjectService {
+public class RedissonEnhanceGetMethodInterceptor extends EnhanceGetMethodInterceptor {
 
     private RedissonClient redissonClient;
 
-    public RedissonEnhanceObjectService(EnhanceObjectManager enhanceObjectManager, RedissonClient redissonClient) {
+    public RedissonEnhanceGetMethodInterceptor(EnhanceObjectManager enhanceObjectManager,
+        RedissonClient redissonClient) {
         super(enhanceObjectManager);
         this.redissonClient = redissonClient;
     }
 
     @Override
-    protected void setField(String id, String fieldName, String fieldValue) {
-        redissonClient.getMap(id).put(fieldName, fieldValue);
+    public Object getField(String id, String fieldName) {
+        return redissonClient.getMap(id).get(fieldName);
     }
 
     @Override
-    protected Map<String, String> getField(String id) {
+    public Map<String, String> getFields(String id) {
         final RMap<Object, Object> entries = redissonClient.getMap(id);
         final Map<String, String> fieldMap = new HashMap<>(entries.size());
         entries.forEach((fieldName, fieldValue) -> fieldMap.put(String.valueOf(fieldName), String.valueOf(fieldValue)));
@@ -38,11 +40,6 @@ public class RedissonEnhanceObjectService extends DefaultEnhanceObjectService {
     @Override
     public ReadWriteLock getReadWriteLock(String lockKey) {
         return redissonClient.getReadWriteLock(lockKey);
-    }
-
-    @Override
-    protected Object increaseField(String id, String fieldName) {
-        return redissonClient.getMap(id).addAndGet(fieldName, 1);
     }
 
 }

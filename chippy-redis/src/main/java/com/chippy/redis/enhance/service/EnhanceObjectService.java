@@ -1,4 +1,6 @@
-package com.chippy.redis.enhance;
+package com.chippy.redis.enhance.service;
+
+import com.chippy.redis.enhance.EnhanceObject;
 
 /**
  * 增强对象操作服务
@@ -24,5 +26,13 @@ public interface EnhanceObjectService {
      * @author chippy
      */
     <T> T get(String id, Class<T> sourceObjectClass);
+
+    /**
+     * 关闭增强对象的作用
+     *
+     * @param id 对象唯一标识
+     * @author chippy
+     */
+    void shutdown(String id);
 
 }

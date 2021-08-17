@@ -25,4 +25,9 @@ public class EnhanceObjectProperties {
      */
     private List<String> scannerPackage;
 
+    /**
+     * 执行增强操作客户端
+     */
+    private String client;
+
 }

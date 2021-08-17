@@ -12,6 +12,7 @@ public class EnhancerUtil {
 
     public static final String SET = "set";
     public static final String GET = "get";
+    public static final String INCREASE = "increase";
 
     @SuppressWarnings("unchecked")
     public static <T> T createProxy(T object, Callback callback) {

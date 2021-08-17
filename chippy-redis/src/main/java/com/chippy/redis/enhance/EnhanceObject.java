@@ -15,4 +15,24 @@ public interface EnhanceObject {
      */
     String getId();
 
+    /**
+     * 自增值(整形类型)
+     *
+     * @param fileName 自增属性
+     * @param value    自增值
+     * @author chippy
+     */
+    default void increase(String fileName, Long value) {
+    }
+
+    /**
+     * 自增值(浮点类型)
+     *
+     * @param fileName 自增属性
+     * @param value    自增值
+     * @author chippy
+     */
+    default void increase(String fileName, Double value) {
+    }
+
 }

@@ -11,3 +11,4 @@ enhance-object:
   scanner-package:
     - com.chippy.redis.example
   enhance-object-capacity: 16
+  client: redisson
