@@ -83,7 +83,10 @@ public abstract class DefaultEnhanceObjectService implements EnhanceObjectServic
 
                 final EnhanceObjectField enhanceObjectFiled =
                     enhanceObjectManager.getEnhanceObjectFiled(fullClassName, fieldName);
-                if (Objects.nonNull(enhanceObjectFiled) && enhanceObjectFiled.getIsLock()) {
+                final boolean notEmpty = ObjectUtil.isNotEmpty(enhanceObjectFiled);
+                final boolean isLock = enhanceObjectFiled.getIsLock();
+                final boolean isSupportWriteLock = FieldLockType.supportW(enhanceObjectFiled.getFieldLockType());
+                if (notEmpty && isLock && isSupportWriteLock) {
                     return this
                         .lockInvokeSet(sourceObject, method, enhanceObject, fullClassName, enhanceObjectFiled, args[0]);
                 } else {
@@ -97,7 +100,10 @@ public abstract class DefaultEnhanceObjectService implements EnhanceObjectServic
 
                 final EnhanceObjectField enhanceObjectFiled =
                     enhanceObjectManager.getEnhanceObjectFiled(fullClassName, fieldName);
-                if (Objects.nonNull(enhanceObjectFiled) && enhanceObjectFiled.getIsLock()) {
+                final boolean notEmpty = ObjectUtil.isNotEmpty(enhanceObjectFiled);
+                final boolean isLock = enhanceObjectFiled.getIsLock();
+                final boolean isSupportReadLock = FieldLockType.supportR(enhanceObjectFiled.getFieldLockType());
+                if (notEmpty && isLock || isSupportReadLock) {
                     return this.lockInvokeGet(method, fullClassName, enhanceObject, fieldName, enhanceObjectFiled);
                 } else {
                     return this.normalInvokeGet(sourceObject, method, args);
