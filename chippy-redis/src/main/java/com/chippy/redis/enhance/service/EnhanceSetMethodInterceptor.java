@@ -13,6 +13,7 @@ import org.springframework.cglib.proxy.MethodProxy;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
@@ -36,7 +37,8 @@ public abstract class EnhanceSetMethodInterceptor extends DefaultEnhanceMethodIn
         final EnhanceObject enhanceObject = (EnhanceObject)sourceObject;
 
         final String fieldName = this.getFieldName(methodName, EnhancerUtil.SET);
-        if (enhanceObjectManager.getExcludeFieldList(fullClassName).contains(fieldName)) {
+        final List<String> excludeFieldList = enhanceObjectManager.getExcludeFieldList(fullClassName);
+        if (Objects.isNull(excludeFieldList) || excludeFieldList.contains(fieldName)) {
             return this.normalInvokeSet(sourceObject, method, args, enhanceObject, fieldName);
         }
 
@@ -66,9 +68,7 @@ public abstract class EnhanceSetMethodInterceptor extends DefaultEnhanceMethodIn
                     .format("获取[class:%s, field:%s]写锁时间超时[timeout:%s]", fullClassName, fieldName,
                         enhanceObjectFiled.getWaitLockTime()));
             }
-            System.out.println(Thread.currentThread().getName() + "-set get lock");
             this.setField(enhanceObject.getId(), fieldName, String.valueOf(arg));
-            System.out.println(String.format(Thread.currentThread().getName() + "-set value-[%s]", arg));
             return method.invoke(sourceObject, arg);
         } catch (Exception e) {
             throw new UnknownEnhanceObjectException(e.getMessage(), e);

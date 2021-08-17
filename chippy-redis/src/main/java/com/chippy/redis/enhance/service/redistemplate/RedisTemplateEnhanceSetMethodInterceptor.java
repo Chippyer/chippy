@@ -1,5 +1,6 @@
 package com.chippy.redis.enhance.service.redistemplate;
 
+import com.chippy.common.utils.ObjectsUtil;
 import com.chippy.redis.enhance.EnhanceObjectManager;
 import com.chippy.redis.enhance.service.EnhanceSetMethodInterceptor;
 import org.redisson.api.RedissonClient;
@@ -26,7 +27,9 @@ public class RedisTemplateEnhanceSetMethodInterceptor extends EnhanceSetMethodIn
 
     @Override
     public void setField(String id, String fieldName, String fieldValue) {
-        stringRedisTemplate.opsForHash().put(id, fieldName, fieldValue);
+        if (ObjectsUtil.isNotEmpty(fieldValue)) {
+            stringRedisTemplate.opsForHash().put(id, fieldName, fieldValue);
+        }
     }
 
     @Override

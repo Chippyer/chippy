@@ -1,5 +1,6 @@
 package com.chippy.redis.enhance.service.redisson;
 
+import com.chippy.common.utils.ObjectsUtil;
 import com.chippy.redis.enhance.EnhanceObjectManager;
 import com.chippy.redis.enhance.service.EnhanceSetMethodInterceptor;
 import org.redisson.api.RedissonClient;
@@ -23,7 +24,9 @@ public class RedissonEnhanceSetMethodInterceptor extends EnhanceSetMethodInterce
 
     @Override
     public void setField(String id, String fieldName, String fieldValue) {
-        redissonClient.getMap(id).put(fieldName, fieldValue);
+        if (ObjectsUtil.isNotEmpty(fieldValue)) {
+            redissonClient.getMap(id).put(fieldName, fieldValue);
+        }
     }
 
     @Override

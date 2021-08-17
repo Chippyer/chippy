@@ -29,6 +29,9 @@ public class RedisTemplateEnhanceIncreaseMethodInterceptor extends EnhanceIncrea
 
     @Override
     public Object increaseField(String id, String fieldName, Object arg) {
+        if (ObjectUtil.isEmpty(arg)) {
+            return null;
+        }
         final String argStr = String.valueOf(arg);
         if (NumberUtil.isDouble(argStr)) {
             final Double valueOf = Double.valueOf(argStr);
