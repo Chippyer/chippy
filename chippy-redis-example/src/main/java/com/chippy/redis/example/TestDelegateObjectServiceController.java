@@ -2,6 +2,7 @@ package com.chippy.redis.example;
 
 import cn.hutool.json.JSONUtil;
 import com.chippy.redis.enhance.service.EnhanceObjectService;
+import com.chippy.redis.example.po.TestBean;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

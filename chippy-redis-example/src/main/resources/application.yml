@@ -9,6 +9,6 @@ server:
 
 enhance-object:
   scanner-package:
-    - com.chippy.redis.example
+    - com.chippy.redis.example.po
   enhance-object-capacity: 16
   client: redisTemplate

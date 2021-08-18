@@ -1,4 +1,4 @@
-package com.chippy.redis.example;
+package com.chippy.redis.example.po;
 
 import com.chippy.redis.enhance.EnhanceObject;
 import com.chippy.redis.enhance.FieldLock;
