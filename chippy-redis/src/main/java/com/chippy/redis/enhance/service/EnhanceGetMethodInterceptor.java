@@ -1,7 +1,7 @@
 package com.chippy.redis.enhance.service;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.chippy.common.constants.NumberConstant;
+import com.chippy.redis.constants.NumberConstant;
 import com.chippy.redis.enhance.EnhanceObject;
 import com.chippy.redis.enhance.EnhanceObjectField;
 import com.chippy.redis.enhance.EnhanceObjectManager;

@@ -1,4 +1,4 @@
-package com.chippy.common.constants;
+package com.chippy.redis.constants;
 
 /**
  * 数字常量定义

@@ -11,8 +11,8 @@
         <module>chippy-spring</module>
         <module>chippy-oss</module>
         <module>chippy-redis</module>
-        <module>chippy-oss-example</module>
-        <module>chippy-redis-example</module>
+ <!--       <module>chippy-oss-example</module>
+        <module>chippy-redis-example</module>-->
     </modules>
 
     <url>https://gitee.com/chippyer</url>
@@ -71,7 +71,7 @@
 
     <groupId>io.gitee.chippyer</groupId>
     <artifactId>chippy-parent</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.2</version>
 
     <dependencies>
         <dependency>

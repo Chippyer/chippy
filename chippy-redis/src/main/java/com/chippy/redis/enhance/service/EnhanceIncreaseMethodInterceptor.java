@@ -1,6 +1,6 @@
 package com.chippy.redis.enhance.service;
 
-import com.chippy.common.constants.NumberConstant;
+import com.chippy.redis.constants.NumberConstant;
 import com.chippy.redis.enhance.EnhanceObject;
 import com.chippy.redis.enhance.EnhanceObjectManager;
 import com.chippy.redis.utils.EnhancerUtil;

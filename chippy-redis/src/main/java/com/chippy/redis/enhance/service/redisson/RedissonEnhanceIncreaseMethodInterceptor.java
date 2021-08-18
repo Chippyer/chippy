@@ -2,7 +2,7 @@ package com.chippy.redis.enhance.service.redisson;
 
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.ObjectUtil;
-import com.chippy.common.constants.NumberConstant;
+import com.chippy.redis.constants.NumberConstant;
 import com.chippy.redis.enhance.EnhanceObjectManager;
 import com.chippy.redis.enhance.service.EnhanceIncreaseMethodInterceptor;
 import org.redisson.api.RedissonClient;
