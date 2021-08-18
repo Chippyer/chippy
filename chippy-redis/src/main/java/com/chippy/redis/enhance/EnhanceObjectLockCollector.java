@@ -68,7 +68,7 @@ public class EnhanceObjectLockCollector implements InitializingBean {
     private void resolveEnhanceObjectField(Class<?> classType, EnhanceObjectInfo enhanceObjectInfo) {
         final Field[] fields = classType.getDeclaredFields();
         final List<EnhanceObjectField> enhanceObjectFieldList = new ArrayList<>(fields.length);
-        final List<String> excludeFieldList = new ArrayList<>(fields.length);
+        // final List<String> excludeFieldList = new ArrayList<>(fields.length);
         for (Field field : fields) {
             final FieldLock fieldLock = AnnotationUtil.getAnnotation(field, FieldLock.class);
             if (Objects.nonNull(fieldLock)) {
@@ -78,12 +78,13 @@ public class EnhanceObjectLockCollector implements InitializingBean {
                 enhanceObjectField.setFieldLockType(fieldLock.fieldLockType());
                 enhanceObjectField.setWaitLockTime(fieldLock.waitLockTime());
                 enhanceObjectFieldList.add(enhanceObjectField);
-            } else {
-                excludeFieldList.add(field.getName());
             }
+            // else {
+            //     excludeFieldList.add(field.getName());
+            // }
         }
         enhanceObjectInfo.setEnhanceObjectFieldList(enhanceObjectFieldList);
-        enhanceObjectInfo.setExcludeFieldList(excludeFieldList);
+        // enhanceObjectInfo.setExcludeFieldList(excludeFieldList);
     }
 
     @Override

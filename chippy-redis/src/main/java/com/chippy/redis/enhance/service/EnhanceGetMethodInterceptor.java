@@ -14,9 +14,7 @@ import org.springframework.cglib.proxy.MethodProxy;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 
@@ -36,12 +34,13 @@ public abstract class EnhanceGetMethodInterceptor extends DefaultEnhanceMethodIn
         final String methodName = method.getName();
         final String fullClassName = sourceObject.getClass().getName();
         final EnhanceObject enhanceObject = (EnhanceObject)sourceObject;
-
         final String fieldName = super.getFieldName(methodName, EnhancerUtil.GET);
-        final List<String> excludeFieldList = enhanceObjectManager.getExcludeFieldList(fullClassName);
-        if (Objects.isNull(excludeFieldList) || excludeFieldList.contains(fieldName)) {
-            return method.invoke(sourceObject, args);
-        }
+
+        // final List<String> excludeFieldList = enhanceObjectManager.getExcludeFieldList(fullClassName);
+        // if (Objects.isNull(excludeFieldList) || excludeFieldList.contains(fieldName)) {
+        //     return method.invoke(sourceObject, args);
+        // }
+
         final EnhanceObjectField enhanceObjectFiled =
             enhanceObjectManager.getEnhanceObjectFiled(fullClassName, fieldName);
         final boolean notEmpty = ObjectUtil.isNotEmpty(enhanceObjectFiled);

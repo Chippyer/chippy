@@ -13,7 +13,6 @@ import org.springframework.cglib.proxy.MethodProxy;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
@@ -35,12 +34,12 @@ public abstract class EnhanceSetMethodInterceptor extends DefaultEnhanceMethodIn
         final String methodName = method.getName();
         final String fullClassName = sourceObject.getClass().getName();
         final EnhanceObject enhanceObject = (EnhanceObject)sourceObject;
-
         final String fieldName = this.getFieldName(methodName, EnhancerUtil.SET);
-        final List<String> excludeFieldList = enhanceObjectManager.getExcludeFieldList(fullClassName);
-        if (Objects.isNull(excludeFieldList) || excludeFieldList.contains(fieldName)) {
-            return this.normalInvokeSet(sourceObject, method, args, enhanceObject, fieldName);
-        }
+
+        // final List<String> excludeFieldList = enhanceObjectManager.getExcludeFieldList(fullClassName);
+        // if (Objects.isNull(excludeFieldList) || excludeFieldList.contains(fieldName)) {
+        //     return this.normalInvokeSet(sourceObject, method, args, enhanceObject, fieldName);
+        // }
 
         final EnhanceObjectField enhanceObjectFiled =
             enhanceObjectManager.getEnhanceObjectFiled(fullClassName, fieldName);

@@ -18,12 +18,12 @@ public class EnhanceObjectManager {
     public EnhanceObjectManager(int capacity) {
         enhanceObjectInfoMap = new HashMap<>(capacity);
         enhanceObjectFieldMap = new HashMap<>(capacity << 3);
-        excludeFieldMap = new HashMap<>(capacity << 4);
+        // excludeFieldMap = new HashMap<>(capacity << 4);
     }
 
     private Map<String /* full class name */, EnhanceObjectInfo> enhanceObjectInfoMap;
     private Map<String /* full class name + field name */, EnhanceObjectField> enhanceObjectFieldMap;
-    private Map<String /* full class name */, List<String>> excludeFieldMap;
+    // private Map<String /* full class name */, List<String>> excludeFieldMap;
 
     void register(String fullClassName, EnhanceObjectInfo enhanceObjectInfo) {
         enhanceObjectInfoMap.put(fullClassName, enhanceObjectInfo);
@@ -36,10 +36,10 @@ public class EnhanceObjectManager {
             }
         }
 
-        final List<String> excludeFieldList = enhanceObjectInfo.getExcludeFieldList();
-        if (ObjectsUtil.isNotEmpty(excludeFieldList)) {
-            excludeFieldMap.put(fullClassName, excludeFieldList);
-        }
+        // final List<String> excludeFieldList = enhanceObjectInfo.getExcludeFieldList();
+        // if (ObjectsUtil.isNotEmpty(excludeFieldList)) {
+        //     excludeFieldMap.put(fullClassName, excludeFieldList);
+        // }
     }
 
     public EnhanceObjectInfo getEnhanceObjectInfo(Class<?> classType) {
@@ -55,9 +55,9 @@ public class EnhanceObjectManager {
         return enhanceObjectFieldMap.get(fieldKey);
     }
 
-    public List<String> getExcludeFieldList(String fullClassName) {
-        return excludeFieldMap.get(fullClassName);
-    }
+    // public List<String> getExcludeFieldList(String fullClassName) {
+    //     return excludeFieldMap.get(fullClassName);
+    // }
 
     private String getFieldKey(String fullClassName, String name) {
         return fullClassName + MARK + name;
