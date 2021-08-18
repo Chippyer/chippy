@@ -43,10 +43,13 @@ public abstract class EnhanceGetMethodInterceptor extends DefaultEnhanceMethodIn
 
         final EnhanceObjectField enhanceObjectFiled =
             enhanceObjectManager.getEnhanceObjectFiled(fullClassName, fieldName);
-        final boolean notEmpty = ObjectUtil.isNotEmpty(enhanceObjectFiled);
+        if (ObjectUtil.isEmpty(enhanceObjectFiled)) {
+            return method.invoke(sourceObject, args);
+        }
+
         final boolean isLock = enhanceObjectFiled.getIsLock();
         final boolean isSupportReadLock = FieldLockType.supportR(enhanceObjectFiled.getFieldLockType());
-        if (notEmpty && isLock || isSupportReadLock) {
+        if (isLock || isSupportReadLock) {
             return this.lockInvokeGet(method, fullClassName, enhanceObject, fieldName, enhanceObjectFiled);
         } else {
             return method.invoke(sourceObject, args);

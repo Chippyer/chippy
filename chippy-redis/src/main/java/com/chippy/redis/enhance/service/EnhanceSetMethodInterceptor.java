@@ -43,10 +43,13 @@ public abstract class EnhanceSetMethodInterceptor extends DefaultEnhanceMethodIn
 
         final EnhanceObjectField enhanceObjectFiled =
             enhanceObjectManager.getEnhanceObjectFiled(fullClassName, fieldName);
-        final boolean notEmpty = ObjectUtil.isNotEmpty(enhanceObjectFiled);
+        if (ObjectUtil.isEmpty(enhanceObjectFiled)) {
+            return method.invoke(sourceObject, args);
+        }
+
         final boolean isLock = enhanceObjectFiled.getIsLock();
         final boolean isSupportWriteLock = FieldLockType.supportW(enhanceObjectFiled.getFieldLockType());
-        if (notEmpty && isLock && isSupportWriteLock) {
+        if (isLock && isSupportWriteLock) {
             return this.lockInvokeSet(sourceObject, method, enhanceObject, fullClassName, enhanceObjectFiled,
                 args[NumberConstant.ZERO_INT]);
         } else {
