@@ -13,6 +13,7 @@
 
     <properties>
         <redisson.version>3.10.6</redisson.version>
+        <chippy.version>0.0.2.1</chippy.version>
     </properties>
 
 
@@ -20,7 +21,7 @@
         <dependency>
             <groupId>io.gitee.chippyer</groupId>
             <artifactId>chippy-redis</artifactId>
-            <version>${project.version}</version>
+            <version>${chippy.version}</version>
         </dependency>
 
         <dependency>

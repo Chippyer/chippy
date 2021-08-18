@@ -11,8 +11,8 @@
         <module>chippy-spring</module>
         <module>chippy-oss</module>
         <module>chippy-redis</module>
- <!--       <module>chippy-oss-example</module>
-        <module>chippy-redis-example</module>-->
+        <module>chippy-oss-example</module>
+        <module>chippy-redis-example</module>
     </modules>
 
     <url>https://gitee.com/chippyer</url>

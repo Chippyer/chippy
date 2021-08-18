@@ -43,58 +43,18 @@ public class TestEnhanceObjectController {
     @PostMapping("/process")
     public String process(String id, int size) {
         for (int i = 0; i < size; i++) {
-            final Thread t1 = new Thread(() -> {
+            final Thread t = new Thread(() -> {
                 final TestBean testBean = enhanceObjectService.get(id, TestBean.class);
-                // final Integer age = testBean.getAge();
-                //                System.out.println(String.format(Thread.currentThread().getName() + "start time-[%s]", System.currentTimeMillis()));
-                //                log.debug(Thread.currentThread().getName() + "[{}]-before age-[{}]", Thread.currentThread().getName(),
-                //                    age);
-                //                testBean.setAge(age + 1);
                 testBean.increase("age", 1L);
-
-                //                final String s = UUIDUtil.generateUuid();
-                //                System.out.println(s);
-                //                testBean.setName(s);
-
-                //                testBean.setAddress(UUIDUtil.generateUuid());
             });
-            t1.setName("t1");
-            t1.setPriority(1);
-            final Thread t2 = new Thread(() -> {
-                final TestBean testBean = enhanceObjectService.get(id, TestBean.class);
-                // final Integer age = testBean.getAge();
-                //                System.out.println(String.format(Thread.currentThread().getName() + "start time-[%s]", System.currentTimeMillis()));
-                //                log.debug(Thread.currentThread().getName() + "[{}]-before age-[{}]", Thread.currentThread().getName(),
-                //                    age);
-                // testBean.setAge(age + 1);
-                testBean.increase("age", 2L);
-
-                //                testBean.setName(UUIDUtil.generateUuid());
-
-                //                testBean.setAddress(UUIDUtil.generateUuid());
-            });
-            t2.setName("t2");
-            t2.setPriority(3);
-            final Thread t3 = new Thread(() -> {
-                final TestBean testBean = enhanceObjectService.get(id, TestBean.class);
-                // final Integer age = testBean.getAge();
-                //                System.out.println(String.format(Thread.currentThread().getName() + "start time-[%s]", System.currentTimeMillis()));
-                //                log.debug(Thread.currentThread().getName() + "[{}]-before age-[{}]", Thread.currentThread().getName(),
-                //                    age);
-                // testBean.setAge(age + 1);
-                testBean.increase("age", 3L);
-
-                //                testBean.setName(UUIDUtil.generateUuid());
-
-                //                testBean.setAddress(UUIDUtil.generateUuid());
-            });
-            t3.setName("t3");
-            t3.setPriority(7);
-
-            t1.start();
-            t2.start();
-            t3.start();
+            t.start();
         }
+        return "SUCCESS";
+    }
+
+    @PostMapping("/shutdown")
+    public String shutdown(String id) {
+        enhanceObjectService.shutdown(id);
         return "SUCCESS";
     }
 
